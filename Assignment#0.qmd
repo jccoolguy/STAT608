@@ -1,0 +1,48 @@
+---
+title: "STAT 639 HW 4"
+author: "Jack Cunningham (jgavc@tamu.edu)"
+date: 08/20/2024
+date-format: short
+format:
+  pdf:
+    include-in-header:
+      - text: |
+          \usepackage{amsmath}
+editor: visual
+engine: knitr
+---
+
+$$
+\begin{bmatrix}
+1&2&3\\
+a&b&c
+\end{bmatrix}
+$$
+
+Matrix Algebra Review
+
+$A = \begin{bmatrix} 1&0&2&3\\-1&2&0&-2 \end{bmatrix}$, $B=\begin{bmatrix} 0&-1\\3&0\\2&1\\0&-2 \end{bmatrix}$ , $C=\begin{bmatrix} 1&0\\0&1\\0&0\end{bmatrix}$
+
+1\.
+
+$A'= \begin{bmatrix} 1 &-1\\0&2\\2&0\\3&-2\end{bmatrix}$
+
+2\.
+
+$A'+B=\begin{bmatrix} 1&-2\\3&2\\4&1\\3&-4\end{bmatrix}$
+
+3\.
+
+$AB=\begin{bmatrix} 4 &-5\\6&5 \end{bmatrix}$
+
+4\.
+
+$BA=\begin{bmatrix} 1&-2&0&2\\3&0&6&9\\1&2&4&4\\2&-4&0&4\end{bmatrix}$
+
+$AB\neq BA$
+
+5\.
+
+$AB$ is not singular. The matrix is invertible due to the fact that the determinant is not zero.
+
+$\text{det}(AB)=|AB|=(4)(5)-(-5)(6)=50$
