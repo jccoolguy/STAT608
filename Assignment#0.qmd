@@ -49,7 +49,7 @@ $\text{det}(AB)=|AB|=(4)(5)-(-5)(6)=50$
 
 6\.
 
-The trace is the sum of diagonal elements. $\text{Tr}(AB) = 4 + 5$.
+The trace is the sum of diagonal elements. $\text{Tr}(AB) = 4 + 5=9$.
 
 7\.
 
@@ -157,8 +157,11 @@ The standard error of the slope is the measure of spread in the distribution of 
 
 5\.
 
+$t_{n-2}=\frac{\hat{\beta_1}-\beta_1}{se(\hat{\beta})}$
+
 ```{r}
-qnorm(.000257/2)
+t_statistic = (1.1667 - 0)/0.1521
+t_statistic
 ```
 
 6\.
@@ -172,8 +175,9 @@ There is evidence as height increases weight tends to increase.
 8\.
 
 ```{r}
-lower <- 1.1667 - 0.152*1.96
-upper <- 1.1667 + 0.152*1.96
+t_alpha <- qt(1 - 0.05, 8 - 2)
+lower <- 1.1667 - (0.1521/sqrt(8))*t_alpha
+upper <- 1.1667 + (0.1521/sqrt(8))*t_alpha
 c(lower, upper)
 ```
 
