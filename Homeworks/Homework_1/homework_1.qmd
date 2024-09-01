@@ -1,0 +1,40 @@
+---
+title: "STAT 608 HW 1"
+author: "Jack Cunningham (jgavc@tamu.edu)"
+date: 09/06/2024
+date-format: short
+format:
+  pdf:
+    include-in-header:
+      - text: |
+          \usepackage{amsmath}
+editor: visual
+engine: knitr
+---
+
+1\)
+
+```{r}
+playbill <- read.csv("playbill.csv")
+```
+
+```{r}
+playbill_slr <- lm(data = playbill, formula = CurrentWeek ~ LastWeek)
+slr_data <- summary(playbill_slr)
+slr_data
+```
+
+a\)
+
+```{r}
+B_1 <- slr_data$coefficients[2,"Estimate"]
+B_1_se <- slr_data$coefficients[2,"Std. Error"]
+n = length(playbill)
+lower <- B_1 - B_1_se*qt(1-0.05/2, df = n - 2)
+upper <- B_1 + B_1_se*qt(1-0.05/2, df = n - 2)
+c(lower,upper)
+```
+
+The 95% confidence interval for $\beta_1$ is (`r round(lower,3), round(upper,3)`). The suggested value of 1 for $\beta_1$ is reasonable because it is within our confidence interval.
+
+b\)
