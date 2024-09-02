@@ -29,12 +29,72 @@ a\)
 ```{r}
 B_1 <- slr_data$coefficients[2,"Estimate"]
 B_1_se <- slr_data$coefficients[2,"Std. Error"]
-n = length(playbill)
+n = length(playbill[,"CurrentWeek"])
 lower <- B_1 - B_1_se*qt(1-0.05/2, df = n - 2)
 upper <- B_1 + B_1_se*qt(1-0.05/2, df = n - 2)
 c(lower,upper)
 ```
 
-The 95% confidence interval for $\beta_1$ is (`r round(lower,3), round(upper,3)`). The suggested value of 1 for $\beta_1$ is reasonable because it is within our confidence interval.
+The 95% confidence interval for $\beta_1$ is (`r round(lower,3)`, `r round(upper,3)`) The suggested value of 1 for $\beta_1$ is reasonable because it is within our confidence interval.
 
 b\)
+
+We are testing the hypothesis: $H_0:\beta_0=10000,H_1:\beta_0 \neq10000$. To do this we have the T statistic:
+
+$T=\frac{\hat{\beta_0}-10000}{SE(\beta_0)}$ and its absolute value needs to be greater than $t_{n-2}(\alpha/2)$ to reject the null hypothesis.
+
+```{r}
+t_quantile_rejection <- qt(1 - 0.05/2,df = n - 2)
+B_0_hat <- slr_data$coefficients[1,"Estimate"]
+B_0_hat_se <- slr_data$coefficients[1,"Std. Error"]
+T_statistic_B_0 <- (B_0_hat - 10000)/B_0_hat_se
+T_statistic_B_0
+```
+
+In this case our T statistic equals to `r round(T_statistic_B_0,3)` whose absolute value is far lower than `r round(t_quantile_rejection,3)`.
+
+```{r}
+lower_B_0 <- B_0_hat - B_0_hat_se*qt(1-0.05/2, df = n - 2)
+upper_B_0 <- B_0_hat + B_0_hat_se*qt(1 - 0.05/2, df = n -2)
+c(lower_B_0,upper_B_0)
+```
+
+In fact the 95% confidence interval for $\beta_0$ is extremely wide, it is (`r round(lower_B_0,3)`, `r round(upper_B_0,3)`). Therefore I wouldn't use the currently fitted model to predict current week sales when previous week sales are closer to zero. This is mainly due to the fact that our data only covers a range of previous week sales values from \$200,000 to \$1,200,000.
+
+c\)
+
+c\)
+
+c\)
+
+To construct a 95% prediction interval for $x^\star=400000$ we use the below formula:
+
+$$
+\hat{\beta_0}+\hat{\beta_1}x^\star \pm t(\alpha/2,n-2)S\sqrt{\frac{1}{n}+1+\frac{(x^\star-\bar{x})}{SXX}}
+$$
+
+We can do this manually or use the predict function.
+
+```{r}
+prediction <- B_0_hat + B_1*400000
+S <- sqrt(1/(n-2)*sum((playbill[,"CurrentWeek"]-B_0_hat - B_1*playbill[, "LastWeek"])^2))
+SXX <- sum((playbill[,"LastWeek"] - mean(playbill[,"LastWeek"]))^2)
+
+upper <- prediction + qt(1 - 0.05/2,df = n -2)*S*sqrt(1/n + 1 + (400000 - mean(playbill[, "LastWeek"]))^2/SXX)
+lower <- prediction - qt(1 - 0.05/2,df = n -2)*S*sqrt(1/n + 1 + (400000 - mean(playbill[, "LastWeek"]))^2/SXX)
+
+c(lower,upper)
+
+```
+
+```{r}
+current_predicted_value <- predict(playbill_slr, 
+                                   newdata = data.frame(LastWeek = c(400000)),
+                                  interval = "prediction",
+                                  confidence = 0.95)
+current_predicted_value
+```
+
+The value \$450,000 is not a reasonable value to expect for the current week given a previous week of \$400,000. This is because it falls outside of our 95% prediction interval at $x^\star=400000$: (`r round(lower,3)`, `r round(upper,3)`).
+
+d\)
