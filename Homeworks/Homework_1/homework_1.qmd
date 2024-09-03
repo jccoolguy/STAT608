@@ -118,3 +118,15 @@ $Var(Y_i|X_i =x_i)=Var(\beta_0+\beta_1x_i+e_i)=Var(e_i)$.
 We assume that Y is related to X through the linear regression model $Y_i = \beta_0+\beta_1x_i+e_i$.
 
 We assume that $x_i$ is manually chosen by the practitioner or "known fixed constants".
+
+3\)
+
+To create a linear regression model we need a method to estimate the parameters. The least squares criterion estimates the parameters by finding the values that minimize the sum of squared differences between our predicted values of the response variable and the actual values of the response variable in the data.
+
+4\)
+
+$Y=X\beta + e$
+
+Where X is:
+
+$\begin{bmatrix} 1 & X_1 \\ 1&X_2\\1&X_3 \\\dots & \dots \\ 1 & X_n\end{bmatrix}$
