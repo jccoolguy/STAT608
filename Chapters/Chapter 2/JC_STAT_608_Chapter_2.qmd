@@ -1,0 +1,15 @@
+---
+title: "STAT 608 Chapter 2"
+author: "Jack Cunningham (jgavc@tamu.edu)"
+date: 09/03/24
+date-format: short
+format:
+  pdf:
+    include-in-header:
+      - text: |
+          \usepackage{amsmath}
+editor: visual
+engine: knitr
+---
+
+## 
