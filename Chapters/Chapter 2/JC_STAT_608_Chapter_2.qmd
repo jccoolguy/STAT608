@@ -12,4 +12,38 @@ editor: visual
 engine: knitr
 ---
 
-## 
+```{r}
+library(tidyverse)
+```
+
+```{r}
+quadratic_relationship <- data.frame(
+  x = seq(-5,5,1)
+)
+adding_y <- quadratic_relationship |> 
+  mutate(y = x^2)
+```
+
+```{r}
+#Computing correlation
+attach(adding_y)
+r_xy <- sum(x - mean(x))*sum(y - mean(y))/sqrt(sum((x - mean(x))^2)*sum((y - mean(y))^2))
+```
+
+```{r}
+r_xy
+```
+
+```{r}
+cor(x,y)
+```
+
+```{r}
+adding_y |> 
+  ggplot(aes(x = x, y = y)) +
+  geom_point()
+```
+
+```{r}
+cor(x,y,method = "pearson")
+```
