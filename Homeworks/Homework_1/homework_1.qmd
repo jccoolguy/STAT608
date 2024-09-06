@@ -117,7 +117,7 @@ $Var(Y_i|X_i =x_i)=Var(\beta_0+\beta_1x_i+e_i)=Var(e_i)$.
 
 We assume that Y is related to X through the linear regression model $Y_i = \beta_0+\beta_1x_i+e_i$.
 
-We assume that $x_i$ is manually chosen by the practitioner or "known fixed constants".
+We assume that $x_i$ are known "known fixed constants".
 
 3\)
 
@@ -171,8 +171,6 @@ b\)
 
 i\)
 
-Using that $E[y_i]=\beta x_i.$
-
 $$
 E(\hat{\beta}|X)=E(\frac{\sum_{i=n}^n x_iy_i}{\sum_{i=1}^n x_i^2})=\frac{ \sum_{i=1}^n E(x_iy_i)}{\sum_{i=1}^n x_i^2}=\frac{\sum_{i=1}^nx_iE(y_i)}{\sum_{i=1}^n x_i^2}
 $$
@@ -184,6 +182,16 @@ E(\hat{B}|X)=\frac{\beta \sum_{i=1}^n x_i^2}{\sum_{i=1}^n x_i^2}=\beta
 $$
 
 ii\)
+
+$$
+Var(\hat{\beta}|X)=Var(\frac{\sum_{i=1}^n x_iy_i}{\sum_{i=1}^n x_i^2})=\frac{\sum_{i=1}^n x_i^2 Var(y_i)}{(\sum_{i=1}^n x_i^2)^2}
+$$
+
+Since $Var(y_i)=\sigma^2$:
+
+$$
+Var(\hat{\beta}|X)=\frac{\sigma^2}{\sum_{i=1}^n x_i^2}
+$$ iii)
 
 ##Possibly Used Later##
 
