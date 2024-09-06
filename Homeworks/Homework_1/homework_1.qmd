@@ -332,3 +332,39 @@ $$
 When a confidence interval for a particular $x^\star$ is created we are talking about the confidence interval of the statistic $E(Y|x^\star)$, the mean value of Y at a particular $x^\star$.
 
 The confusion comes from thinking that the confidence interval of $E(Y|x^\star)$ is the same as a prediction interval for a single observation of Y at a given $x^\star$. The prediction interval will always be wider than the confidence interval as it also incorporates the variance of the random error $e_i$.
+
+8\.
+
+9\.
+
+Starting from our estimate of $\hat{\beta}$ from earlier:
+
+$$
+\hat{\beta}=(X^TX)^{-1}X^Ty
+$$
+
+We are looking for $Var(a^T\hat{\beta}|X)$ so:
+
+$Var(a^T\beta|X)=Var(a^T(X^TX)^{-1}X^Ty)$
+
+We then use the below fact.
+
+$X\sim N(\mu,\epsilon)$
+
+$AX \sim N(A \mu,A \epsilon A^T)$
+
+Then:
+
+$$
+Var(a^T\beta|X)=a^T(X^TX)^{-1}X^TVar(y)X(X^TX)^{-1}a
+$$
+
+We know $Var(y)=\sigma^2I_n$
+
+$$
+Var(a^T\beta|X)=\sigma^2I_na^T(X^TX)^{-1}X^TX(X^TX)^{-1}a
+$$
+
+$$
+Var(a^T\beta|X)=\sigma^2a^T(X^TX)^{-1}a
+$$
