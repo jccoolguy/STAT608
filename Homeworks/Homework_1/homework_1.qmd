@@ -200,14 +200,28 @@ Since $Y=X\beta + e$. We can say that $Y \sim N_n(X\beta,\sigma^2 I_n)$.
 Using the fact that when:
 
 $$
-X\sim N(\mu,\sum)
+X\sim N(\mu,\sigma^2)
 $$
 
 $$
-AX \sim N(A\mu,A \sum A^T)
+AX \sim N(A\mu,A \sigma^2 A^T)
 $$
 
-And $\hat{\beta}=(X^TX)^{-1}X^Ty$.
+So since $\hat{\beta}=(X^TX)^{-1}X^Ty$. We can say that:
+
+$$
+\hat{\beta} \sim N((X^TX)^{-1}X^TX\beta,(X^TX)^{-1}X^T \sigma^2 I_n ((X^TX)^{-1}X^T)^{T}
+$$
+
+$$
+\hat{\beta} \sim N_n(\beta,\sigma^2I_n(X^TX)^{-1}X^TX(X^TX)^{-1}
+$$
+
+Since X is a vector of length n: $X^TX=\sum_{i=1}^nx_i^2$. So:
+
+$$
+\hat{\beta} \sim N(\beta,\frac{\sigma^2}{\sum_{i=1}^n x_i^2})
+$$
 
 ##Possibly Used Later##
 
