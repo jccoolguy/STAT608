@@ -193,6 +193,22 @@ $$
 Var(\hat{\beta}|X)=\frac{\sigma^2}{\sum_{i=1}^n x_i^2}
 $$ iii)
 
+We have $E(\hat{\beta}|X)=\beta$ and $Var(\hat{\beta}|X)=\frac{\sigma^2}{\sum_{i=1}^n x_i^2}$ .
+
+Since $Y=X\beta + e$. We can say that $Y \sim N_n(X\beta,\sigma^2 I_n)$.
+
+Using the fact that when:
+
+$$
+X\sim N(\mu,\sum)
+$$
+
+$$
+AX \sim N(A\mu,A \sum A^T)
+$$
+
+And $\hat{\beta}=(X^TX)^{-1}X^Ty$.
+
 ##Possibly Used Later##
 
 The design matrix X is:
