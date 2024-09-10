@@ -63,7 +63,7 @@ In fact the 95% confidence interval for $\beta_0$ is extremely wide, it is (`r r
 
 c\)
 
-To construct a 95% prediction interval for $x^\star=400000$ we use the below formula:
+To construct a 95% prediction interval for $x^\star=400000$ we use the below:
 
 $$
 \hat{\beta_0}+\hat{\beta_1}x^\star \pm t(\alpha/2,n-2)S\sqrt{\frac{1}{n}+1+\frac{(x^\star-\bar{x})}{SXX}}
@@ -172,7 +172,7 @@ b\)
 i\)
 
 $$
-E(\hat{\beta}|X)=E(\frac{\sum_{i=n}^n x_iy_i}{\sum_{i=1}^n x_i^2})=\frac{ \sum_{i=1}^n E(x_iy_i)}{\sum_{i=1}^n x_i^2}=\frac{\sum_{i=1}^nx_iE(y_i)}{\sum_{i=1}^n x_i^2}
+E(\hat{\beta}|X)=E(\frac{\sum_{i=1}^n x_iy_i}{\sum_{i=1}^n x_i^2})=\frac{ \sum_{i=1}^n E(x_iy_i)}{\sum_{i=1}^n x_i^2}=\frac{\sum_{i=1}^nx_iE(y_i)}{\sum_{i=1}^n x_i^2}
 $$
 
 Using that $E(y_i)=\beta x_i$:
@@ -223,82 +223,6 @@ $$
 \hat{\beta} \sim N(\beta,\frac{\sigma^2}{\sum_{i=1}^n x_i^2})
 $$
 
-##Possibly Used Later##
-
-The design matrix X is:
-
-$\begin{bmatrix} 1 & X_1 \\ 1&X_2\\1&X_3 \\\dots & \dots \\ 1 & X_n\end{bmatrix}$
-
-ii\)
-
-The principle of least squares has us minimizing the following function:
-
-$$
-RSS(\beta)=\sum_{i=1}^n(y_i-\hat{y})^2=\sum_{i=1}^n e^2=e^Te
-$$
-
-We substitute in using the fact that $e = y- X\beta$.
-
-$$
-(y-X\beta)^T(y-X\beta)=(y^T-\beta^TX^T)(y-X\beta)=y^Ty-\beta^TX^Ty-y^TX\beta+\beta^TX^TX\beta
-$$
-
-$$
-=y^Ty-(X^Ty)^T\beta-(X^Ty)^T\beta+\beta^T(X^TX)\beta
-$$
-
-$$
-=y^Ty-2(X^Ty)^T\beta+\beta^T(X^TX)\beta
-$$
-
-We now take the derivative relative to $\beta$ and set it equal to zero.
-
-$$
-\frac{RSS(\beta)}{d\beta}=-2(X^Ty)^T+(X^TX+(X^TX)^T)\beta=0
-$$
-
-$$
-2(X^TX)\beta=2(X^Ty)^T
-$$
-
-$$
-\beta=(X^TX)^{-1}(X^Ty)^T
-$$
-
-Where:
-
-$$
-X^TX=\begin{bmatrix} n & \sum_{i=1}^nx_i \\ \sum_{i=1}^nx_i & \sum_{i=1}^nx_i^2\end{bmatrix}
-$$
-
-And thus:
-
-$$
-(X^TX)^{-1}=\frac{1}{n\sum_{i=1}^n x_i^2-(\sum_{i=1}^nx_i)^2}\begin{bmatrix} \sum_{i=1}^n x_i^2 & -\sum_{i=1}^n x_i \\ -\sum_{i=1}^n x_i& n\end{bmatrix}
-$$
-
-We can also simplify the first value:
-
-$$
-\frac{1}{n\sum^n_{i=1}(x_i-\bar{x})^2}
-$$
-
-That is $\frac{1}{(n) SXX}$
-
-And:
-
-$$
-X^Ty=\begin{bmatrix} \sum_{i=1}^n y_i \\ \sum_{i=1}^nx_iy_i\end{bmatrix}
-$$
-
-So:
-
-$$
-(X^TX)^{-1}(X^Ty)=\frac{1}{n}(\frac{1}{SXX}
-$$
-
-##End Possibly Used Later \##
-
 5\.
 
 a\)
@@ -335,6 +259,54 @@ The confusion comes from thinking that the confidence interval of $E(Y|x^\star)$
 
 8\.
 
+Starting from $\hat{\beta}=(X^TX)^{-1}X^Ty$:
+
+$X^TX=\begin{bmatrix} n & \sum x_i \\ \sum x_i & \sum x_i^2 \\ \end{bmatrix}$
+
+$$
+(X^TX)^{-1}=\frac{1}{n \sum{x_i^2}-(\sum x_i)^2}\begin{bmatrix} \sum x_i^2 & - \sum x_i \\ -\sum x_i & n \end{bmatrix}
+$$
+
+$$
+(X^TX)^{-1}= \frac{1}{n SXX}\begin{bmatrix} \sum x_i^2 & - n\bar x \\ -n \bar x & n \end{bmatrix}
+$$
+
+$$
+X^Ty=\begin{bmatrix} \sum y_i \\ \sum x_iy_i\end{bmatrix}= \begin{bmatrix} n \bar{y} \\ \sum x_iy_i \end{bmatrix}
+$$
+
+$\hat{\beta}=\frac{1}{n SXX} \begin{bmatrix} \sum x_i^2 & -n \bar{x} \\ -n \bar{x} & n\end{bmatrix} \begin{bmatrix} n \bar{y} \\ \sum x_iy_i\end{bmatrix}$
+
+$\hat{\beta_0}=\frac{1}{nSXX}(\sum x_i^2(n)(\bar{y})-(n)(\bar{x})(\sum x_iy_i))$
+
+Then:
+
+$$
+\hat{\beta_0}=\frac{\bar{y}(\sum x_i^2+n\bar{x}^2-n\bar{x}^2)-\bar{x}\sum x_iy_i}{SXX}
+$$
+
+We do this since $SXX=\sum x_i^2-n\bar{x}^2$. So now we have:
+
+$$
+\hat{\beta_0}=\frac{\bar{y}(SXX + n \bar{x}^2)-\bar{x} \sum x_i y_i}{SXX}
+$$
+
+$$
+\hat{\beta_0}=\bar{y}-\frac{-n\bar{y}\bar{x}^2+\bar{x}\sum x_i y_i}{SXX}
+$$
+
+$$
+\hat{\beta_0}=\bar{y}-\frac{(-n \bar{x}\bar{y}+\sum x_i y_i)\bar{x}}{SXX}
+$$
+
+And we can show that $SXY=\sum(x_i-\bar{x})(y_i-\bar{y})=\sum x_iy_i-\sum x_i(\bar{y})-\bar{x}\sum y_i+\sum\bar{x}\bar{y}=\sum x_i y_i-2n \bar{x} \bar{y}+n \bar{x} \bar{y}=\sum x_i y_i-n \bar{x} \bar{y}$
+
+Then we come to the desired outcome of:
+
+$$
+\hat{\beta_0}=\bar{y}-\frac{SXY}{SXX}\bar{x}
+$$
+
 9\.
 
 Starting from our estimate of $\hat{\beta}$ from earlier:
@@ -345,7 +317,7 @@ $$
 
 We are looking for $Var(a^T\hat{\beta}|X)$ so:
 
-$Var(a^T\beta|X)=Var(a^T(X^TX)^{-1}X^Ty)$
+$Var(a^T\hat{\beta}|X)=Var(a^T(X^TX)^{-1}X^Ty)$
 
 We then use the below fact.
 
