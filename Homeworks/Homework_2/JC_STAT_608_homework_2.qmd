@@ -21,3 +21,99 @@ sxx
 
 
 ```
+
+5\)
+
+The correct answer is d.
+
+RSS is the variability unexplained by the model, SSreg is the variability explained by the model. They total up to the SST, the total sample variability. So:
+
+$$
+\text{SST}=\text{SSreg}+\text{RSS}
+$$
+
+It is clear that model 1 has y values closer to the regression line than model 2, this indicates a smaller residual sum of squares in model 1. So:
+
+$$
+\text{RSS}_1<\text{RSS}_2
+$$
+
+Then to evaluate SSreg we can say:
+
+$$
+\text{SSreg}_1=\text{SST}-\text{RSS}_1
+$$
+
+and
+
+$$
+\text{SSreg}_2=\text{SST}-\text{RSS}_2
+$$
+
+Since $\text{RSS}_1<\text{RSS}_2$ we can conclude that SSreg for model 1 is greater than SSreg for model 2.
+
+6\)
+
+a\)
+
+We want to show that $(y_i-\hat{y_i})=(y_i-\bar{y})-\hat{\beta_1}(x_i-\bar{x})$. Starting with $\hat{y_i}=\hat{\beta_0}+\hat{\beta_1}x_i$:
+
+$$
+(y_i-(\hat{\beta_0}+\hat{\beta_1}x_i))
+$$
+
+We know that $\hat{\beta_0}=\bar{y}-\hat{\beta_1}\bar{x}$ so:
+
+$$
+(y_i-(\bar{y}-\hat{\beta_1}\bar{x}+\hat{\beta_1}x_i))
+$$
+
+This leads us to our desired conclusion:
+
+$$
+(y_i-\bar{y})-\hat{\beta_1}(x_i-\bar{x})
+$$
+
+b\)
+
+We want to show that $(\hat{y_i}-\bar{y})=\hat{\beta_1}(x_i-\bar{x})$. Starting with $\hat{y_i}=\hat{\beta_0}+\hat{\beta_1}x_i$:
+
+$$
+(\hat{\beta_0}+\hat{\beta_1}x_i-\bar{y})
+$$
+
+We know that $\hat{\beta_0}=\bar{y}-\hat{\beta_1}\bar{x}$ so:
+
+$$
+(\bar{y}-\hat{\beta_1}\bar{x}+\hat{\beta_1}x_i-\bar{y})
+$$
+
+This leads to:
+
+$$
+\hat{\beta_1}(x_i-\bar{x})
+$$
+
+c\)
+
+Using our previous results we have:
+
+$$
+\sum_{i=1}^n(y_i-\hat{y_i})(\hat{y_i}-\bar{y})=\sum_{i=1}^n((y_i-\bar{y})-\hat{\beta_1}(x_i-\bar{x}))(\hat{\beta_1}(x_i-\bar{x}))
+$$
+
+$$
+=\sum_{i=1}^n(\hat{\beta_1}(x_i-\bar{x})(y_i-\bar{y})-\hat{\beta_1}^2(x_i-\bar{x})^2)
+$$
+
+We know that $\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})=SXY$ and $\sum_{i=1}^n(x_i-\bar{x})^2=SXX$. So we have:
+
+$$
+\hat{\beta_1}SXY-\hat{\beta_1}^2SXX
+$$
+
+Using the fact that $\hat{\beta_1}=\frac{SXY}{SXX}$:
+
+$$
+\sum_{i=1}^n(y_i-\hat{y_i})(\hat{y_i}-\bar{y})=\frac{SXY^2}{SXX}-\frac{SXY^2}{SXX}=0
+$$
