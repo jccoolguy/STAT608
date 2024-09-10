@@ -1,0 +1,23 @@
+---
+title: "STAT 608 HW 2"
+author: "Jack Cunningham (jgavc@tamu.edu)"
+date: 09/13/2024
+date-format: short
+format:
+  pdf:
+    include-in-header:
+      - text: |
+          \usepackage{amsmath}
+editor: visual
+engine: knitr
+---
+
+1\)
+
+```{r}
+x_i <- c(rep(1,5),rep(0,5))
+sxx <- sum((x_i-mean(x_i))^2)
+sxx
+
+
+```
