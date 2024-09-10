@@ -116,4 +116,24 @@ Using the fact that $\hat{\beta_1}=\frac{SXY}{SXX}$:
 
 $$
 \sum_{i=1}^n(y_i-\hat{y_i})(\hat{y_i}-\bar{y})=\frac{SXY^2}{SXX}-\frac{SXY^2}{SXX}=0
+$$ 8)
+
+With x as a random n-dimensional vector and $E(x)=\mu$:
+
+$$
+\sum=E[(x-\mu)(x-\mu)^T]=E[x(x-\mu)^T-\mu(x-\mu)^T]
+$$
+
+$$
+\sum=E[xx^T-x\mu^T-\mu x^T+\mu \mu^T]
+$$
+
+$$
+\sum=E[xx^T]-E[x]\mu^T-\mu E[x^T]+\mu \mu^T
+$$
+
+Here we use that $E(x)=\mu$ then we get to the desired result:
+
+$$
+\sum=E[xx^T]-\mu\mu^T-\mu \mu^T +\mu \mu^T=E[x x^T]-\mu \mu^T
 $$
