@@ -70,6 +70,12 @@ $$
 \hat{\alpha}=(X^TX)^{-1}X^{T}y
 $$
 
+Where $X^{T}X$ is:
+
+$$
+X^TX=\begin{bmatrix} \end{bmatrix}
+$$
+
 5\)
 
 The correct answer is d.
