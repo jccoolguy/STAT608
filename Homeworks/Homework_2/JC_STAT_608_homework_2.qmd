@@ -22,6 +22,54 @@ sxx
 
 ```
 
+2\)
+
+$$
+Y=X\beta+e
+$$
+
+Where the design matrix X is:
+
+$$
+X=\begin{bmatrix} 1&1&0 \\ 1&0&1 \\ 1&1&1 \\1&2&2 \\ 1&2&1 \\1&1&2 \end{bmatrix}
+$$
+
+And vector $\beta$ is:
+
+$$
+\beta =\begin{bmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \end{bmatrix} 
+$$The estimate for $\beta$ is:
+
+$$
+\hat{\beta}=(X^TX)^{-1}X^Ty
+$$
+
+3\)
+
+a\)
+
+The first parameter $\alpha_1$ is the expected value of the first group, so it should be the mean of the response variables with $x_1=1$. The second parameter $\alpha_2$ is the expected value of the second group, so it should be the mean of the response variables with $x_2=1$.
+
+b\)
+
+In this case the design matrix X is the below:\
+
+$$
+X=\begin{bmatrix} x_{1,1} & x_{1,2} \\ x_{2,1} & x_{2,2} \\ \dots & \dots \\x_{n,1} & x_{n,2}\end{bmatrix}
+$$
+
+And we can say that there are m people in group 1 and n-m people in group 2. So:
+
+$$
+\sum_{i=1}^nx_{i,1}=m,\sum_{i=1}^n x_{i,2}=n-m
+$$
+
+We can use these facts to estimate $\hat{\alpha}$, the usual formula is below:
+
+$$
+\hat{\alpha}=(X^TX)^{-1}X^{T}y
+$$
+
 5\)
 
 The correct answer is d.
