@@ -48,7 +48,7 @@ $$
 
 a\)
 
-The first parameter $\alpha_1$ is the expected value of the first group, so it should be the mean of the response variables with $x_1=1$. The second parameter $\alpha_2$ is the expected value of the second group, so it should be the mean of the response variables with $x_2=1$.
+The first parameter $\alpha_1$ should be the expected value of the first group $E[Y|x_1=1]$, so it should be the mean of the response variables with $x_1=1$. The second parameter $\alpha_2$ should be expected value of the second group $E[Y|x_2=1]$, so it should be the mean of the response variables with $x_2=1$.
 
 b\)
 
@@ -73,8 +73,28 @@ $$
 Where $X^{T}X$ is:
 
 $$
-X^TX=\begin{bmatrix} \end{bmatrix}
+X^TX=\begin{bmatrix} \sum_{i=1}^nx_{i,1}^2 &\sum_{i=1}^nx_{i,1}x_{i,2} \\ \sum_{i=1}^nx_{i,1}x_{i,2} & \sum_{i=1}^nx_{i,2}^2\end{bmatrix}=\begin{bmatrix} m & 0 \\ 0 & n-m\end{bmatrix}
 $$
+
+Then $(X^TX)^{-1}$ is:
+
+$$
+(X^TX)^{-1}=\frac{1}{m(n-m)}\begin{bmatrix} m & 0 \\ 0 & n-m\end{bmatrix}=\begin{bmatrix} \frac{1}{m} &0 \\ 0 &\frac{1}{n-m}\end{bmatrix}
+$$
+
+And $X^Ty$ is the below, where $\bar{y_1}$ and $\bar{y}_2$ are the mean responses for groups 1 and 2.
+
+$$
+X^Ty=\begin{bmatrix} \sum_{i=1}^nx_{i,1}y_i \\ \sum_{i=1}^nx_{i,2}y_i\end{bmatrix}=\begin{bmatrix} m \bar{y}_1 \\ (n-m)\bar{y}_2\end{bmatrix}
+$$
+
+So the final estimate, $\hat{\alpha}$ is:
+
+$$
+\hat{\alpha}=\begin{bmatrix} \bar{y}_1 \\ \bar{y}_2\end{bmatrix}
+$$
+
+This is consistent with what we stated in part a, the coefficients $\hat{\alpha_1},\hat{\alpha_2}$ is $E[Y|x_1=1]=\bar{y}_1$ and $E[Y|x_2=1]=\bar{y}_2$.
 
 5\)
 
