@@ -96,6 +96,70 @@ $$
 
 This is consistent with what we stated in part a, the coefficients $\hat{\alpha_1},\hat{\alpha_2}$ is $E[Y|x_1=1]=\bar{y}_1$ and $E[Y|x_2=1]=\bar{y}_2$.
 
+4\)
+
+a\)
+
+The design matrix $X$ in this case is:
+
+$$
+X=\begin{bmatrix} x_{1,1} & x_{1,2} \\ x_{2,1} & x_{2,2} \\ \dots & \dots \\ x_{n,1} & x_{n,2}\end{bmatrix}=\begin{bmatrix} 1 &0 \\ 0 & 1 \\ 1 & 1 \\ 1 &1\end{bmatrix}
+$$
+
+With $\beta$:
+
+$$
+\beta=\begin{bmatrix} \beta_1 \\ \beta_2\end{bmatrix}
+$$
+
+We use the linear model below:
+
+$$
+Y=X\beta+e
+$$
+
+And the estimate $\hat{\beta}$ is:
+
+$$
+\hat{\beta}=(X^TX)^{-1}X^Ty
+$$
+
+Starting with $X^TX$:
+
+$$
+X^TX=\begin{bmatrix} 3 & 2 \\ 2 & 3\end{bmatrix}
+$$ So $(X^TX)^{-1}$ is:
+
+$$
+(X^TX)^{-1}=\frac{1}{5} \begin{bmatrix}3 &-2 \\ -2 & 3 \end{bmatrix}
+$$
+
+And $X^Ty$ is:
+
+$$
+X^Ty=\begin{bmatrix} y_1+y_3+y_4 \\ y_2 +y_3 +y_4\end{bmatrix}
+$$
+
+So our final estimate $\hat{\beta}$ is:
+
+$$
+\hat{\beta}=\frac{1}{5} \begin{bmatrix} 3y_1-2y_2+y_3+y_4 \\ -2y_1 +3y_2 +y_3+y_4\end{bmatrix}
+$$
+
+b\)
+
+A way I made sense of the estimate's numerator is by just doing a little bit of algebra:
+
+$$
+\hat{\beta}=\frac{1}{5}\begin{bmatrix} 3y_1 +(y_3-y_2)+(y_4-y_2) \\ 3y_2 +(y_3-y_1)+(y_4-y_1)\end{bmatrix}
+$$
+
+Observations 1 and 2 are pretty straightforward, a good estimate of coins' weight, is by weighing both of them individually.
+
+In Observations 3 and 4 we weigh both coins at the same time. Let's say we are estimating coin 1's weight. It's sensible to take the total weight of both coins and subtract away the weight of coin 2, we would end up with the weight of coin 1 with random error. But since we don't know the true weight of coin 2, we subtract away the estimated weight of coin 2 that we obtained from observation 2. That is what the $(y_3 -y_2)$ and $(y_4 - y_2)$ terms are.
+
+When it comes to weighing our two estimates I think there is some intuitiveness to observations 1 and 2 having more weight on the final estimates of coin weight, $\hat{\beta_1}$ and $\hat{\beta_2}$. For simplicity let's continue to focus on coin 1.When we attempt to isolate coin 1's weight from observations 3 and 4 we have the following terms : $(y_3 -y_2)$ and $(y_4 - y_2)$. We know that $y_i = X_i\beta+e_i$ , each of these terms is subject to the random error from the weighing of both coins $(y_3,y_4)$ and the random error inherent in $y_2$. This makes them less precise estimates of coin 1's weight when compared to observation 1 which is subject to only the error in $y_1$. Our final estimate $\hat{\beta}_1$ therefore gives more credence to observation 1.
+
 5\)
 
 The correct answer is d.
