@@ -283,7 +283,7 @@ $$
 With our assumption of $e \sim N(0,\sigma^2I_n)$ we can say:
 
 $$
-\frac{(n-2)\hat{\sigma}^2}{\sigma^2} \sim N(0,1)
+\frac{(n-2)\hat{\sigma}^2}{\sigma^2} \sim \chi^2_{n-2}
 $$
 
 Then:
