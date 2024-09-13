@@ -14,13 +14,25 @@ engine: knitr
 
 1\)
 
-```{r}
-x_i <- c(rep(1,5),rep(0,5))
-sxx <- sum((x_i-mean(x_i))^2)
-sxx
+We can represent our model in matrix form below:
 
+$$
+y=X{\alpha}+e_i
+$$
 
-```
+Where $\alpha = \begin{bmatrix} \alpha_0 \\ \alpha_1\end{bmatrix}$. And design matrix X is:
+
+$$
+X=\begin{bmatrix} 1&1 \\1 & 1 \\1 & 1 \\1 & 1 \\1 & 1 \\ 1 & 0 \\ 1 & 0 \\ 1 & 0 \\ 1 & 0 \\ 1 & 0\end{bmatrix}
+$$
+
+We are looking for a geometric reason that $\sum_{i=5}^5\hat{e}_{i}=0$. We know that e exists in the null-space of the column space $C(x)$. So $e^TXa=0$. Then, using matrix notation we can represent the sum as the below, where $e_{i,5}=[e_1,e_2,e_3,e_4,e_5]^T$ and $1_5=[1,1,1,1,1]^T$:
+
+$$
+\sum_{i=1}^5e_i=e_{i,5}^T \cdot 1_{5}
+$$
+
+We can easily see that $1_5$ is in the column space of X. It simply X's second column. Since $e^{T}Xa=0$ we can say $\sum_{i=1}^ne_i=0$.
 
 2\)
 
