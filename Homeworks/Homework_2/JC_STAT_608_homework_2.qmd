@@ -26,15 +26,17 @@ $$
 X=\begin{bmatrix} 1&1 \\1 & 1 \\1 & 1 \\1 & 1 \\1 & 1 \\ 1 & 0 \\ 1 & 0 \\ 1 & 0 \\ 1 & 0 \\ 1 & 0\end{bmatrix}
 $$
 
-We are looking for a geometric reason that $\sum_{i=5}^5\hat{e}_{i}=0$. We know that e exists in the null-space of the column space of X, $C(x)$. So $e^Tv=0$ where v is $Xa$. Then, using matrix notation we can represent the sum as the below, where $e_{5}=[e_1,e_2,e_3,e_4,e_5]^T$ and $1_5=[1,1,1,1,1]^T$:
+We are looking for a geometric reason that $\sum_{i=5}^5\hat{e}_{i}=0$. We know that $\hat{e}$ exists in the null-space of the column space of X, $C(x)$. So $\hat{e}^Tv=0$ where v is $Xa$. Then, using matrix notation we can represent the sum as the below, where $\hat{e}_{5}=[\hat{e}_1,\hat{e}_2,\hat{e}_3,\hat{e}_4,\hat{e}_5]^T$ and $1_5=[1,1,1,1,1]^T$:
 
 $$
-\sum_{i=1}^5e_i=e_{5}^T \cdot 1_{5}
+\sum_{i=1}^5 \hat{e}_i=\hat{e}_{5}^T \cdot 1_{5}
 $$
 
-We can easily see that $1_5$ is in the column space of X. It is simply X's second column. So we can say $\sum_{i=1}^ne_i=0$.
+We can easily see that $1_5$ is in the column space of X. It is simply X's second column. So we can say $\sum_{i=5}^n\hat{e}_i=0$.
 
 2\)
+
+I left intercept $\beta_0$ in this model because I didn't want to assume that the weight gain of the rats in absence of sugar and fat in their diet would be 0. So:
 
 $$
 Y=X\beta+e
@@ -166,11 +168,11 @@ $$
 \hat{\beta}=\frac{1}{5}\begin{bmatrix} 3y_1 +(y_3-y_2)+(y_4-y_2) \\ 3y_2 +(y_3-y_1)+(y_4-y_1)\end{bmatrix}
 $$
 
-Observations 1 and 2 are pretty straightforward, a good estimate of coins' weight, is by weighing both of them individually.
+Observations 1 and 2 are pretty straightforward, a good estimate of each coin's weight, is obtained by weighing both of them individually.
 
 In Observations 3 and 4 we weigh both coins at the same time. Let's say we are estimating coin 1's weight. It's sensible to take the total weight of both coins and subtract away the weight of coin 2, we would end up with the weight of coin 1 with random error. But since we don't know the true weight of coin 2, we subtract away the estimated weight of coin 2 that we obtained from observation 2. That is what the $(y_3 -y_2)$ and $(y_4 - y_2)$ terms are.
 
-When it comes to weighing our two estimates I think there is some intuitiveness to observations 1 and 2 having more weight on the final estimates of coin weight, $\hat{\beta_1}$ and $\hat{\beta_2}$. For simplicity let's continue to focus on coin 1.When we attempt to isolate coin 1's weight from observations 3 and 4 we have the following terms : $(y_3 -y_2)$ and $(y_4 - y_2)$. We know that $y_i = X_i\beta+e_i$ , each of these terms is subject to the random error from the weighing of both coins $(y_3,y_4)$ and the random error inherent in $y_2$. This makes them less precise estimates of coin 1's weight when compared to observation 1 which is subject to only the error in $y_1$. Our final estimate $\hat{\beta}_1$ therefore gives more credence to observation 1.
+When it comes to weighing our two estimates I think there is some intuitiveness to observations 1 and 2 having more weight on the final estimates of coin weight, $\hat{\beta_1}$ and $\hat{\beta_2}$. For simplicity let's continue to focus on coin 1.When we attempt to isolate coin 1's weight from observations 3 and 4 we have the following terms : $(y_3 -y_2)$ and $(y_4 - y_2)$. We know that $y_i = X_i\beta+e_i$ , each of these terms is subject to the random error from the weighing of both coins together $(y_3,y_4)$ and the random error in weighing coin 2 individually as in $y_2$. This makes them less precise estimates of coin 1's weight when compared to observation 1 which is subject to only the error in $y_1$. Our final estimate $\hat{\beta}_1$ therefore gives more credence to observation 1.
 
 5\)
 
