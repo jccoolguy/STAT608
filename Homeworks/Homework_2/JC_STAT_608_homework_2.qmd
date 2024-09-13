@@ -32,7 +32,7 @@ $$
 \sum_{i=1}^5e_i=e_{i,5}^T \cdot 1_{5}
 $$
 
-We can easily see that $1_5$ is in the column space of X. It simply X's second column. Since $e^{T}Xa=0$ we can say $\sum_{i=1}^ne_i=0$.
+We can easily see that $1_5$ is in the column space of X. It is simply X's second column. Since $e^{T}Xa=0$ we can say $\sum_{i=1}^ne_i=0$.
 
 2\)
 
