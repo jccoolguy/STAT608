@@ -32,7 +32,7 @@ $$
 \sum_{i=1}^5e_i=e_{i,5}^T \cdot 1_{5}
 $$
 
-We can easily see that $1_5$ is in the column space of X. It is simply X's second column. Since $e^{T}Xa=0$ we can say $\sum_{i=1}^ne_i=0$.
+We can easily see that $1_5$ is in the column space of X. It is simply X's second column. So we can say $\sum_{i=1}^ne_i=0$.
 
 2\)
 
@@ -106,7 +106,7 @@ $$
 \hat{\alpha}=\begin{bmatrix} \bar{y}_1 \\ \bar{y}_2\end{bmatrix}
 $$
 
-This is consistent with what we stated in part a, the coefficients $\hat{\alpha_1},\hat{\alpha_2}$ is $E[Y|x_1=1]=\bar{y}_1$ and $E[Y|x_2=1]=\bar{y}_2$.
+This is consistent with what we stated in part a, the coefficients $\hat{\alpha_1},\hat{\alpha_2}$ are $E[Y|x_1=1]=\bar{y}_1$ and $E[Y|x_2=1]=\bar{y}_2$.
 
 4\)
 
@@ -266,7 +266,37 @@ Using the fact that $\hat{\beta_1}=\frac{SXY}{SXX}$:
 
 $$
 \sum_{i=1}^n(y_i-\hat{y_i})(\hat{y_i}-\bar{y})=\frac{SXY^2}{SXX}-\frac{SXY^2}{SXX}=0
-$$ 8)
+$$`<!-- -->`{=html}7)
+
+a\)
+
+In order for $t = (\hat{\beta}_1-0)/se(\hat{\beta}_1)$ to have a t distribution we must assume that $e_i \sim N(0, \sigma^2)$ , that $e_i$ are i.i.d and that the t statistic of $\beta_1$ and $\chi$ statistic of $\hat{\sigma}$ are independently distributed. We then can say $\hat{\beta_1} \sim N(\beta_1,\frac{\sigma^2}{SXX})$. So:
+
+$$
+SD(\hat{\beta_1})=\frac{\sigma}{\sqrt{SXX}}
+$$ To estimate $\sigma$ we estimate $\hat{\sigma}^2$:
+
+$$
+\hat{\sigma}^2=\frac{1}{n-2}\sum_{i=1}^n(y_i-\hat{y}_i)^2
+$$
+
+With our assumption of $e \sim N(0,\sigma^2I_n)$ we can say:
+
+$$
+\frac{(n-2)\hat{\sigma}^2}{\sigma^2} \sim N(0,1)
+$$
+
+Then:
+
+$$
+\frac{\hat{\beta_1}-\beta_1}{\hat{\sigma}/\sqrt{SXX}}\sim t_{n-2}
+$$
+
+b\)
+
+As the sample size increases the t statistic approaches a standard normal distribution.
+
+8\)
 
 With x as a random n-dimensional vector and $E(x)=\mu$:
 
