@@ -16,9 +16,9 @@ engine: knitr
 
 a\)
 
-The business analyst claims that this model is highly effective for understanding the effects of Distance on Fare and predicting future values of Fare, there a few issues with this conclusion. First when we look at the standard residual plot we see that there appears to be a discernible quadratic pattern. With $n=17$ it is very important that residuals be distributed i.i.d $N(0,\sigma^2)$ in order to make inference on coefficient estimates. Additionally with $\textbf{any}$ sized sample residuals must be distributed i.i.d $N(0,\sigma^2)$ in order to create prediction intervals about the response variable.
+The business analyst claims that this model is highly effective for understanding the effects of Distance on Fare and predicting future values of Fare, there a few issues with this conclusion. First when we look at the standard residual plot we see that there appears to be a discernible quadratic pattern differing from the assumption of i.i.d $N(0,\sigma^2)$ random variables. This violates our ability to create accurate prediction intervals and our ability to provide inference on coefficient estimates since $n=17$.
 
-Wwith our current model there are also two outlier points I have labeled in red below. These need to be further analyzed.
+With our current model there are also two outlier points I have labeled in red below. These need to be further analyzed. If they are valid they could be evidence of non-constant variance
 
 ```{r echo=FALSE}
 airfares <- read.delim("airfares.txt",sep = "\t", header = TRUE)
@@ -40,26 +40,73 @@ text(x = c(Distance[13],Distance[17]), y = c(StanRes1[13],StanRes1[17]), labels 
 
 b\)
 
-The ordinary straight line regression does not appear to fit the data well. We can see a clear quadratic pattern in the standardized residuals. I would recommend introducing the term $Distance^2$ and analyzing the standardized residuals again. I would also examine the properties of point 13 as this appears to be a bad leverage point.
+The ordinary straight line regression model seems to fit the data reasonably. To further improve this model first the analyst should assess the validity of the two outlier points 13 and 17. If the data is valid I would take this as evidence of non constant variance and consider introducing a regression model using the square root of the response variable and the square root of distance. I would also consider adding a quadratic term to deal with the pattern in the rest of the residual plot.
+
+#To be removed#
+
+```{r}
+airfares_no_outliers <- airfares[c(1:12,14:16),]
+```
+
+```{r}
+airfares_no <- lm(Fare~Distance, data = airfares_no_outliers)
+```
+
+```{r}
+plot(airfares_no_outliers$Distance, airfares_no_outliers$Fare)
+abline(lsfit(airfares_no_outliers$Distance, airfares_no_outliers$Fare))
+```
+
+```{r}
+leverage1 <- hatvalues(airfares_no)
+StanRes1 <- rstandard(airfares_no)
+plot(airfares_no_outliers$Distance,StanRes1, ylab="Standardized Residuals")
+abline(h=2,lty=2)
+abline(h=-2,lty=2)
+
+```
+
+```{r}
+airfares_no_outliers$Distance2 <- airfares_no_outliers$Distance^2
+```
+
+```{r}
+airfares_no_quad <- lm(Fare~Distance + Distance2, data = airfares_no_outliers)
+```
+
+```{r}
+plot(airfares_no_outliers$Distance, airfares_no_outliers$Fare)
+curve(predict(airfares_no_quad, newdata = data.frame(Distance = x, Distance2=x^2)),add = T)
+```
+
+```{r}
+leverage1 <- hatvalues(airfares_no_quad)
+StanRes1 <- rstandard(airfares_no_quad)
+plot(airfares_no_outliers$Distance,StanRes1, ylab="Standardized Residuals")
+abline(h=2,lty=2)
+abline(h=-2,lty=2)
+```
 
 ```{r}
 airfares$Distance2 <- airfares$Distance^2
-airline_quad <- lm(Fare~Distance + Distance2, data = airfares[c(1:12,14:17),])
-summary(airline_quad)
 ```
 
 ```{r}
-plot(airline_quad)
+test <- lm(Fare ~ Distance + Distance2, data = airfares[c(1:12,14:17),])
+summary(test)
 ```
 
-```{r echo=FALSE, fig.width = 5,fig.height = 3.5}
-leverage1 <- hatvalues(airline_quad)
-StanRes1 <- rstandard(airline_quad)
-residual1 <- airfares$residuals
-plot(Distance[c(1:12,14:17)],StanRes1, ylab="Standardized Residuals")
+```{r}
+plot(x = airfares[c(1:12,14:17),"Distance"], y = airfares[c(1:12,14:17),"Fare"])
+curve(predict(test, newdata = data.frame(Distance = x, Distance2 = x^2)),add= T)
+```
+
+```{r}
+leverage1 <- hatvalues(test)
+StanRes1 <- rstandard(test)
+plot(airfares[c(1:12,14:17),"Distance"],StanRes1, ylab="Standardized Residuals")
 abline(h=2,lty=2)
 abline(h=-2,lty=2)
-points(x = c(Distance[13],Distance[17]),y = c(StanRes1[13],StanRes1[17])
-       ,col = "red")
-text(x = c(Distance[13],Distance[17]), y = c(StanRes1[13],StanRes1[17]), labels = c("13","17"), cex = .7, pos = c(2,3))
 ```
+
+#To be removed End#
