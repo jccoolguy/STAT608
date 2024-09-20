@@ -110,3 +110,92 @@ abline(h=-2,lty=2)
 ```
 
 #To be removed End#
+
+4\.
+
+a\)
+
+We know $\hat{e}=y-\hat{y}$ and that $\hat{y}=Hy$. Where H is the projection matrix onto y. So:
+
+$$
+\hat{e}=y-\hat{y}=y-Hy=(I-H)y
+$$
+
+b\)
+
+We know the below fact where $A$ is a constant matrix and $b$ is a vector of random variables.
+
+$$
+Var(Ab)=AVar(b)A^T
+$$ So then, using that $(I-H)$ is a matrix and y is a vector of random variables with $Var(y)=\Sigma$.
+
+$$
+Var[(I-H)y]=(I-H)Var(y)(I-H)^T=(I-H)\Sigma(I-H)^T
+$$
+
+We use the fact that $\Sigma=\sigma^2I$ to continue to simplify:
+
+$$
+(I-H)\Sigma(I-H)^T=(I-H)\sigma^2I(I-H)^T=\sigma^2(I-H)(I-H)^T \\
+=\sigma^2(II^T-IH^T-HI^T+HH^T)
+$$
+
+Using the fact that H,I are symmetric we get.
+
+$$
+\sigma^2(I-2H+HH)
+$$
+
+We can prove that $HH=H$, we use that $H=X(X^TX)^{-1}X^T$. Then:
+
+$$
+HH=X(X^TX)^{-1}X^TX(X^TX)^{-1}X^T=X(X^TX)^{-1}X^T=H
+$$
+
+So we get the final result for the covariance matrix of errors:
+
+$$
+\sigma^2(I-H)
+$$
+
+c\)
+
+We know that the entries in $H$ are $h_{ij}$ in each $(i,j)$ position. And $I$ is the identity matrix and thus diagonal, so its entries are$I_{ij}=0,i \neq j$ and $I_{ij}=1,i=j$ . Then we can say the below:
+
+$$
+Cov(\hat{e_i},\hat{e_j})=\sigma^2(I_{ij}-h_{ij})=-h_{ij}\sigma^2,i \neq j
+$$
+
+5\.
+
+a\)
+
+We know that $H=X(X^TX)^{-1}X^T$. Then using the rule $(AB)^T=B^TA$ and $((AB)^{-1})^T=((AB)^{T})^{-1}$we have:
+
+$$
+H^T=(X(X^TX)^{-1}X^T)^T=X((X^TX)^{T})^{-1}X^T=X(X^TX)^{-1}X^T=H
+$$
+
+b\)
+
+H is idempotent, $HH=H$. So:
+
+$$
+HH=\begin{bmatrix} h_{11} & h_{12} & \dots & h_{1n} \\ h_{21} &h_{22} & \dots  & h_{2n} \\ \vdots & \vdots & \vdots & \vdots \\ h_{n1} &h_{n2} & \dots & h_{nn} \end{bmatrix}\begin{bmatrix} h_{11} & h_{12} & \dots & h_{1n} \\ h_{21} &h_{22} & \dots  & h_{2n} \\ \vdots & \vdots & \vdots & \vdots \\ h_{n1} &h_{n2} & \dots & h_{nn} \end{bmatrix}=\begin{bmatrix} \sum_{i=j}^nh_{1j}h_{j1} &\sum_{j=1}^nh_{1j}h_{j2} &\dots & \sum_{j=1}^nh_{1j}h_{jn} \\ \sum_{j=1}^nh_{2j}h_{j1} &\sum_{j=1}^nh_{2j}h_{j2} &\dots & \sum_{j=1}^nh_{2j}h_{jn} \\ \vdots & \vdots & \vdots & \vdots \\ \sum_{j=1}^nh_{nj}h_{j1} &\sum_{j=1}^nh_{nj}h_{j2} &\dots & \sum_{j=1}^nh_{nj}h_{jn}\end{bmatrix}=H
+$$
+
+$H=H^T$ so $h_{ij}=h_{ji}$. So the diagonal elements of $H$ are $h_{ii}=\sum_{j=1}^n h_{ij}^2$. We can also write this as $h_{ii}=h_{ii}^2+\sum_{j=1,j\neq i}^nh_{ij}^2$. So we can conclude that $h_{ii} \geq h_{ii}^2\geq0$. Additionally the only time that a square of a number is less than or equal to the number itself is when it is less than 1. So therefore $0 \leq h_{ii} \leq 1$.
+
+c\)
+
+We have $H=X(X^TX)^{-1}X^T$. Where X is the design matrix for simple linear regression.
+
+So:
+
+$$
+(X^TX)^{-1}=\frac{1}{SXX}\begin{bmatrix}\sum_{i=1}^n x_i^2/n & -\bar{x} \\ -\bar{x} & 1\end{bmatrix}
+$$
+
+$$
+X(X^TX)^{-1}=
+$$
