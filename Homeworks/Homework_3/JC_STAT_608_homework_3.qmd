@@ -122,8 +122,18 @@ $$
 We use $H=X(X^TX)^{-1}X^T$:
 
 $$
-(X^TX)^{-1}=
+(X^TX)^{-1}=\begin{bmatrix} \frac{1}{m} & 0 \\ 0 & \frac{1}{n-m}\end{bmatrix}
 $$
+
+$$
+X(X^TX)=\begin{bmatrix} (\frac{1}{m})_m &0_m \\ 0 & (\frac{1}{n-m})_{n-m}\end{bmatrix}
+$$
+
+$$
+H =X(X^TX)^{-1}X^T=\begin{bmatrix} \frac{1}{m} & \frac{1}{m} &\frac{1}{m} & \dots &\frac{1}{m}&0&0&0 & \dots & 0 \\\vdots & \vdots & \vdots & \vdots & \vdots & \vdots& \vdots & \vdots& \vdots & \vdots \\\frac{1}{m} & \frac{1}{m} &\frac{1}{m} & \dots &\frac{1}{m}&0&0&0 & \dots & 0 \\ 0 & 0 & 0 & \dots & 0 & \frac{1}{n-m} & \frac{1}{n-m} & \frac{1}{n-m} & \frac{1}{n-m}& \frac{1}{n-m} \\ \vdots & \vdots & \vdots & \vdots & \vdots & \vdots& \vdots & \vdots& \vdots & \vdots \\ 0 & 0 & 0 & \dots & 0 & \frac{1}{n-m} & \frac{1}{n-m} & \frac{1}{n-m} & \frac{1}{n-m}& \frac{1}{n-m} \end{bmatrix}
+$$
+
+The projection matrix projects the response variable $y$ onto the column space of $X$. In doing this we are finding the closest point $\hat{y}_i$ for each $y_i$. In this particular case we are projecting
 
 4\.
 
