@@ -111,6 +111,20 @@ abline(h=-2,lty=2)
 
 #To be removed End#
 
+3\)
+
+In question 3 we have the design matrix X of:
+
+$$
+X=\begin{bmatrix} 1_m & 0_m \\ 0_{n-m} & 1_{n-m}\end{bmatrix}
+$$
+
+We use $H=X(X^TX)^{-1}X^T$:
+
+$$
+(X^TX)^{-1}=
+$$
+
 4\.
 
 a\)
@@ -197,5 +211,35 @@ $$
 $$
 
 $$
-X(X^TX)^{-1}=
+X(X^TX)^{-1}=\frac{1}{SXX}\begin{bmatrix} \sum_{i=1}^n\frac{x_i^2}{n}-\bar{x}x_1 & -\bar{x}+x_1 \\ \vdots & \vdots \\ \sum_{i=1}^n\frac{x_i^2}{n}-\bar{x}x_n & -\bar{x}+x_n \end{bmatrix}
 $$
+
+$$
+H=X(X^TX)^{-1}X^T=\frac{1}{SXX}\begin{bmatrix} \sum_{i=1}^n \frac{x_i^2}{n}-\bar{x}x_1+(-\bar{x}+x_1)x_1 & \dots &\sum_{i=1}^n \frac{x_i^2}{n}-\bar{x}x_1+(-\bar{x}+x_1)x_n \\ \vdots & \vdots & \vdots \\ \sum_{i=1}^n\frac{x_i^2}{n}-\bar{x}x_n+(-\bar{x}+x_n)x_1 & \vdots & \sum_{i=1}^n\frac{x_i^2}{n}-\bar{x}x_n+(-\bar{x}+x_n)x_n\end{bmatrix}
+$$
+
+Then we can generalize an entry of H, $h_{ij}$ as:
+
+$$
+h_{ij}=\frac{1}{SXX}(\sum_{i=1}^n\frac{x_i^2}{n}-\bar{x}x_i+(-\bar{x}+x_i)x_j)
+$$
+
+We can create the desired $1/n$ term by adding and subtracting $n\bar{x}^2/n=\bar{x}^2$. We know that $\sum_{i=1}^nx_i^2+n\bar{x}^2=SXX$:
+
+$$
+h_{ij}=\frac{1}{SXX}(\frac{1}{n}(\sum x_i^2-n\bar{x}^2)+\bar{x}^2-\bar{x}x_i-\bar{x}x_j+x_ix_j)
+$$
+
+$$
+h_{ij}=\frac{1}{n}+\frac{\bar{x}^2-\bar{x}x_i-\bar{x}x_j+x_ix_j}{SXX}
+$$
+
+We can factor the numerator into $(x_i-\bar{x})(x_j-\bar{x})$. We get our desired result:
+
+$$
+h_{ij}=\frac{1}{n}+\frac{(x_i-\bar{x})(x_j - \bar{x})}{SXX}
+$$
+
+d\)
+
+#Work on#
