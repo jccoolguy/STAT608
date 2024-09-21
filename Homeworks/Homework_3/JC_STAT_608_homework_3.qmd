@@ -252,7 +252,13 @@ $$
 
 d\)
 
-#Work on#
+We know that the covariance between two residuals is the below:
+
+$$
+Cov(\hat{e_i},\hat{e_j})=-h_{ij}\sigma^2
+$$
+
+From part c we have the formula for $h_{ij}$. Holding $n$ fixed we can see that $h_{ij}$ is small when and $x_i$ and $x_j$ are close to the mean of x, $\bar{x}$, so $Cov(\hat{e_i},\hat{e_j}) \approx0$ in those cases. This makes sense because we've previously seen that points of low leverage don't have a high impact on the regression line, so they will have low influence on the residuals for different $x_i$.
 
 6\)
 
@@ -305,26 +311,28 @@ The rule for a leverage point is $h_{ii}>\frac{4}{n}$. With $n=5$ the rule is $h
 
 d\)
 
-The variance of each residual is $Var(\hat{e_i})=\sigma^2(1-h_{ii})$ as previously worked through in Question 4. We assume that $Y=X\beta +e$, so $Var(Y)=\sigma^2$. So $\sigma^2$ is the variance of $Y$, $\frac{\sum_{i=1}^n(y_i-\bar{y})^2}{n}$.
+The variance of each residual is $Var(\hat{e_i})=\sigma^2(1-h_{ii})$ as previously worked through in Question 4. We need to estimate $\sigma^2$ with $\hat{\sigma}^2=MS_{\text{Error}}=\frac{1}{n-2}\sum_{i=1}^n \hat{e_i}^2$.
 
 ```{r}
-y_bar <- mean(data$y)
-var_y <- sum((data$y - y_bar)^2)/n
+data$squared_residuals <- data$residuals^2
+squared_sigma_est <- sum(data$squared_residuals)/(n - 2)
+data$residuals_variance <- squared_sigma_est*(1-data$leverage)
+data$residuals_variance
 ```
 
-So $\sigma^2$ is `r var_y` .
+e\)
+
+The formula for standardized residuals is below:\
+$$
+r_i=\frac{\hat{e_i}}{\hat{\sigma}\sqrt{1-h_{ii}}}
+$$
 
 ```{r}
-data$residual_variance <- var_y*(1-data$leverage)
+data$std_residuals <- data$residuals/(sqrt(squared_sigma_est*(1 - data$leverage)))
+data$std_residuals
 ```
 
-The variances of the residuals are:
-
-$$
-Var(\hat{e})=\begin{bmatrix}6.7952,7.8912, 8.5488,8.7680,0.8768 \end{bmatrix}
-$$
-
-e\) #Work on
+The final point $(6,10.2)$ has the largest standardized residual. This appears to conflict with part b because in part b this same point had a relatively small residual compared to the other 4 points.
 
 f\)
 
