@@ -269,7 +269,7 @@ The fifth point appears to be a bad leverage point, so a leverage point and an o
 ```{r echo=FALSE}
 data <- data.frame(x = c(-3,-2,-1,0,6), y = c(10,6,5,3,12))
 
-plot(x = data$x, y = data$y, xlab = "X Values", ylab = "Y Values", main = "Scatter Plot")
+plot(x = data$x, y = data$y, xlab = "X Values", ylab = "Y Values", main = "Scatterplot")
 points(x = data$x[5], y = data$y[5], col = "red")
 text(x = data$x[5], y = data$y[5], labels = "5", pos = 2)
 ```
