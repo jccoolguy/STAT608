@@ -253,3 +253,85 @@ $$
 d\)
 
 #Work on#
+
+6\)
+
+a\)
+
+The fifth point appears to be a bad leverage point, so a leverage point and an outlier. The first point is a appears to be a leverage point but a good one, it generally fits the pattern set by the next three points.
+
+```{r echo=FALSE}
+data <- data.frame(x = c(-3,-2,-1,0,6), y = c(10,6,5,3,12))
+
+plot(x = data$x, y = data$y, xlab = "X Values", ylab = "Y Values", main = "Scatter Plot")
+points(x = data$x[5], y = data$y[5], col = "red")
+text(x = data$x[5], y = data$y[5], labels = "5", pos = 2)
+```
+
+b\)
+
+```{r echo=FALSE}
+data$y_hat <- 7.2 + .5*data$x
+data$residuals <- data$y - data$y_hat
+```
+
+The predicted values $\hat{y}$ are $[5.7,6.2,6.7,7.2,10.2]^T$ so the residuals are:
+
+$$
+\hat{e}=y-\hat{y}=\begin{bmatrix} 10 \\ 6 \\ 5 \\ 3 \\12\end{bmatrix} -\begin{bmatrix} 5.7 \\ 6.2 \\ 6.7 \\ 7.2 \\ 10.2\end{bmatrix}=\begin{bmatrix} 4.3 \\ -0.2 \\ -1.7 \\ -4.2 \\ 1.8\end{bmatrix}
+$$
+
+c\)
+
+$$
+h_{ii}=\frac{1}{n}+\frac{(x_i-\bar{x})^2}{SXX}
+$$
+
+```{r}
+x_bar <- mean(data$x)
+SXX <- sum((data$x-x_bar)^2)
+n <- length(data$x)
+data$leverage <- 1/n + (data$x - x_bar)^2/SXX
+data$leverage
+```
+
+The leverage for each point is:
+
+$$
+h_{ii}=\begin{bmatrix}.38,.28,.22,.20,.92\end{bmatrix}
+$$
+
+The rule for a leverage point is $h_{ii}>\frac{4}{n}$. With $n=5$ the rule is $h_{ii}>.8$. So the only leverage point is point 5, $(6,10.2)$. This would be considered a bad leverage point as it doesn't fit the downward sloping pattern of the rest of the data.
+
+d\)
+
+The variance of each residual is $Var(\hat{e_i})=\sigma^2(1-h_{ii})$ as previously worked through in Question 4. We assume that $Y=X\beta +e$, so $Var(Y)=\sigma^2$. So $\sigma^2$ is the variance of $Y$, $\frac{\sum_{i=1}^n(y_i-\bar{y})^2}{n}$.
+
+```{r}
+y_bar <- mean(data$y)
+var_y <- sum((data$y - y_bar)^2)/n
+```
+
+So $\sigma^2$ is `r var_y` .
+
+```{r}
+data$residual_variance <- var_y*(1-data$leverage)
+```
+
+The variances of the residuals are:
+
+$$
+Var(\hat{e})=\begin{bmatrix}6.7952,7.8912, 8.5488,8.7680,0.8768 \end{bmatrix}
+$$
+
+e\) #Work on
+
+f\)
+
+The highest leverage point has the smallest variance due to the relationship between $Var(\hat{e_i})$ and $h_{ii}$.
+
+$$
+Var(\hat{e_i})=\sigma^2(1-h_{ii})
+$$
+
+As $h_{ii}$ increases $Var(e_i)$ decreases.
