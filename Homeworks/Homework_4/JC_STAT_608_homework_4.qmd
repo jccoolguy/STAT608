@@ -173,4 +173,28 @@ The slope is interpreted as follows: As Sales increases by one percent we expect
 
 g\)
 
-#Come back to
+#Come back to#
+
+9\)
+
+With $E[Y]=\mu,Var(Y)=\mu^2$ we want to use a transformation that provides us with constant variance.
+
+Using the Taylor expansion, $f(Y)=f(E[Y])+f^\prime(E[Y])(Y-E[Y])+...$, that allows us to estimate $Var(f(Y))$:
+
+$$
+Var(f(Y))=f^\prime(E[Y])^2Var(Y)
+$$
+
+Subbing in $E[Y],Var(Y)$:
+
+$$
+Var(f(Y))=f^\prime(\mu)^2\mu^2
+$$
+
+If we use $f(y)=log(y)$, which has derivative $f^\prime(y)=\frac{1}{y}$ we get the following variance:
+
+$$
+Var(f(Y))=\frac{1}{\mu^2}\mu^2=1
+$$
+
+Variance is now constant.
