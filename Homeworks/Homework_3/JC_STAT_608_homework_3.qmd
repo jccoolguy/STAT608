@@ -16,100 +16,17 @@ engine: knitr
 
 a\)
 
-The business analyst claims that this model is highly effective for understanding the effects of Distance on Fare and predicting future values of Fare, there a few issues with this conclusion. First when we look at the standard residual plot we see that there appears to be a discernible quadratic pattern differing from the assumption of i.i.d $N(0,\sigma^2)$ random variables. This violates our ability to create accurate prediction intervals and our ability to provide inference on coefficient estimates since $n=17$.
-
-With our current model there are also two outlier points I have labeled in red below. These need to be further analyzed. If they are valid they could be evidence of non-constant variance
-
-```{r echo=FALSE}
-airfares <- read.delim("airfares.txt",sep = "\t", header = TRUE)
-attach(airfares)
-airfare_slr <- lm(Fare ~ Distance)
-```
-
-```{r echo=FALSE, fig.width = 5,fig.height = 3.5}
-leverage1 <- hatvalues(airfare_slr)
-StanRes1 <- rstandard(airfare_slr)
-residual1 <- airfares$residuals
-plot(Distance,StanRes1, ylab="Standardized Residuals")
-abline(h=2,lty=2)
-abline(h=-2,lty=2)
-points(x = c(Distance[13],Distance[17]),y = c(StanRes1[13],StanRes1[17])
-       ,col = "red")
-text(x = c(Distance[13],Distance[17]), y = c(StanRes1[13],StanRes1[17]), labels = c("13","17"), cex = .7, pos = c(2,3))
-```
+This model cannot be used for inference or prediction. We make this conclusion by analyzing the standardized residual by distance plot. If a model is well fit we would expect to see the standardized errors randomly distributed around 0 and constant variance. For this model there is a clear quadratic pattern for the standardized residuals and two outlier points that, if valid, hint towards non-constant variance. These discrepancies call into question any conclusion made from this model.
 
 b\)
 
-The ordinary straight line regression model seems to fit the data reasonably. To further improve this model first the analyst should assess the validity of the two outlier points 13 and 17. If the data is valid I would take this as evidence of non constant variance and consider introducing a regression model using the square root of the response variable and the square root of distance. I would also consider adding a quadratic term to deal with the pattern in the rest of the residual plot.
+The ordinary straight line regression model does not fit the data well. To improve this model the practitioner should analyze the two outlier values, that appear to possibly be leverage points as well, and assess their validity. In the event these two points are valid a transformation should be considered to address the non-constant variance. Additionally a quadratic term should be considered to address the quadratic pattern in the standardized residuals.
 
-#To be removed#
+2\)
 
-```{r}
-airfares_no_outliers <- airfares[c(1:12,14:16),]
-```
+The general form of a confidence interval or prediction interval is a sample statistic $\pm$ margin of error. For both the sample statistic of $\hat{\beta}$ and the prediction interval's point estimate of $E[Y|X=x^\star]$ the term $\bar{y}$ is involved. We know that $\bar{y}=E[Y]$. The core reason why we can't just inverse the transformation of the end points is that generally $E[g^{-1}(Y)]\neq g^{-1}[E(Y)]$.
 
-```{r}
-airfares_no <- lm(Fare~Distance, data = airfares_no_outliers)
-```
-
-```{r}
-plot(airfares_no_outliers$Distance, airfares_no_outliers$Fare)
-abline(lsfit(airfares_no_outliers$Distance, airfares_no_outliers$Fare))
-```
-
-```{r}
-leverage1 <- hatvalues(airfares_no)
-StanRes1 <- rstandard(airfares_no)
-plot(airfares_no_outliers$Distance,StanRes1, ylab="Standardized Residuals")
-abline(h=2,lty=2)
-abline(h=-2,lty=2)
-
-```
-
-```{r}
-airfares_no_outliers$Distance2 <- airfares_no_outliers$Distance^2
-```
-
-```{r}
-airfares_no_quad <- lm(Fare~Distance + Distance2, data = airfares_no_outliers)
-```
-
-```{r}
-plot(airfares_no_outliers$Distance, airfares_no_outliers$Fare)
-curve(predict(airfares_no_quad, newdata = data.frame(Distance = x, Distance2=x^2)),add = T)
-```
-
-```{r}
-leverage1 <- hatvalues(airfares_no_quad)
-StanRes1 <- rstandard(airfares_no_quad)
-plot(airfares_no_outliers$Distance,StanRes1, ylab="Standardized Residuals")
-abline(h=2,lty=2)
-abline(h=-2,lty=2)
-```
-
-```{r}
-airfares$Distance2 <- airfares$Distance^2
-```
-
-```{r}
-test <- lm(Fare ~ Distance + Distance2, data = airfares[c(1:12,14:17),])
-summary(test)
-```
-
-```{r}
-plot(x = airfares[c(1:12,14:17),"Distance"], y = airfares[c(1:12,14:17),"Fare"])
-curve(predict(test, newdata = data.frame(Distance = x, Distance2 = x^2)),add= T)
-```
-
-```{r}
-leverage1 <- hatvalues(test)
-StanRes1 <- rstandard(test)
-plot(airfares[c(1:12,14:17),"Distance"],StanRes1, ylab="Standardized Residuals")
-abline(h=2,lty=2)
-abline(h=-2,lty=2)
-```
-
-#To be removed End#
+Here's a particular example. Imagine $g(X)$ is a decreasing function and we attempt to simply inverse the transformation of the end points of a prediction interval. Let X have a lower prediction bound of $L$ and a upper prediction bound of $U$, so $U>L$. If we just took the inverse of bound sides of the bound we would have $(g^{-1}(L),g^{-1}(U))$. But consider that $g^{-1}(X)$ is a decreasing function, we would end up with $g^{-1}(L)>g^{-1}(U)$ , that is certainly not a valid interval.
 
 3\)
 
@@ -133,7 +50,7 @@ $$
 H =X(X^TX)^{-1}X^T=\begin{bmatrix} \frac{1}{m} & \frac{1}{m} &\frac{1}{m} & \dots &\frac{1}{m}&0&0&0 & \dots & 0 \\\vdots & \vdots & \vdots & \vdots & \vdots & \vdots& \vdots & \vdots& \vdots & \vdots \\\frac{1}{m} & \frac{1}{m} &\frac{1}{m} & \dots &\frac{1}{m}&0&0&0 & \dots & 0 \\ 0 & 0 & 0 & \dots & 0 & \frac{1}{n-m} & \frac{1}{n-m} & \frac{1}{n-m} & \frac{1}{n-m}& \frac{1}{n-m} \\ \vdots & \vdots & \vdots & \vdots & \vdots & \vdots& \vdots & \vdots& \vdots & \vdots \\ 0 & 0 & 0 & \dots & 0 & \frac{1}{n-m} & \frac{1}{n-m} & \frac{1}{n-m} & \frac{1}{n-m}& \frac{1}{n-m} \end{bmatrix}
 $$
 
-The projection matrix projects the response variable $y$ onto the column space of $X$. In doing this we are finding the closest point $\hat{y}_i$ for each $y_i$. In this particular case we are projecting
+The projection matrix projects the response variable $y$ onto the column space of $X$. In doing this each prediction $\hat{y_i}$ is the closest point on the column space of $X$ to the response variable $y$. This makes sense because in least squares regression we want to minimize the sum of mean squared error $\hat{e}^2$ , geometrically $\hat{e}_i$ is the vector between response variable $y_i$ and $\hat{y}_i$ which rests on the column space of $X$. Choosing the closest point by definition finds the shortest vector $e_i$, this minimizes $\hat{e}^2$.
 
 4\.
 
@@ -342,4 +259,208 @@ $$
 Var(\hat{e_i})=\sigma^2(1-h_{ii})
 $$
 
-As $h_{ii}$ increases $Var(e_i)$ decreases.
+As $h_{ii}$ increases $Var(\hat{e}_i)$ decreases.
+
+7\.
+
+With $E[Y]=\mu,Var(Y)=\mu^2$ we want to use a transformation that provides us with constant variance.
+
+Using the Taylor expansion, $f(Y)=f(E(Y))+f^\prime(E(Y))(Y-E[Y])+...$, that allows us to estimate $Var(f(Y))$ as below:
+
+$$
+Var(f(Y))=f^\prime(E(Y))^2(Var(Y))
+$$
+
+Subbing in $E(Y),Var(Y)$:
+
+$$
+Var(f(Y))=f^\prime(\mu)^2\mu^2
+$$
+
+If we use $f(y)=log(y)$, whose derivative is $f^\prime(y)=\frac{1}{y}$ we get the following variance:
+
+$$
+Var(f(Y))=\frac{1}{\mu^2}\mu^2=1
+$$
+
+Variance is now constant.
+
+8\.
+
+```{r}
+company <- read.csv("company.csv")
+head(company, 5)
+attach(company)
+```
+
+a\)
+
+```{r}
+plot(x = Sales, y = Assets, main = "Initial Scatterplot")
+abline(lsfit(Sales, Assets))
+```
+
+```{r}
+first_fit <- lm(Assets ~ Sales)
+summary(first_fit)
+```
+
+```{r fig.width = 6, fig.height = 6}
+par(mfrow = c(2,2))
+plot(first_fit)
+```
+
+Normality in the errors is being violated. We can see a long and fat tail in the QQ plot of Standardized Residuals by Theoretical Quantiles. In the Residuals vs Fitted plot we can a pattern where many of the smaller fitted values have negative residuals, indicating the linear fit isn't working very well. There is evidence of non-stationary variance as in the densely populated area of the scale-location plot the trend line increases.
+
+b\)
+
+```{r, fig.height= 8}
+par(mfrow=c(3,1))
+plot(density(Sales,bw="SJ",kern="gaussian"),type="l",
+main="Gaussian kernel density estimate",xlab="Sales")
+boxplot(Sales,ylab="Sales")
+qqnorm(Sales, ylab = "Sales")
+qqline(Sales, lty = 2, col=2)
+```
+
+From these three plots we can see the right skew in values of Sales The normal QQ-Plot shows that the distribution of Sales isn't close to normal. We will now attempt to transform Sales so g(Sales) can approximate a normal distribution.
+
+Before we decide how to go about this, let's take a look at the distribution of Assets. Since typically financial datasets contain many skewed variables, if Assets is skewed we will be able to plan our approach.
+
+```{r, fig.height= 10}
+par(mfrow=c(3,1))
+plot(density(Assets,bw="SJ",kern="gaussian"),type="l",
+main="Gaussian kernel density estimate",xlab="Assets")
+boxplot(Assets,ylab="Assets")
+qqnorm(Assets, ylab = "Assets")
+qqline(Assets, lty = 2, col=2)
+```
+
+Assets is also skewed. With this in mind we will take approach 1 from the textbook on page 94. First we will transform X so the transformed version of X is as normal as possible. To do this we will use the Box-Cox transformation. Then we will fit $Y=g(\beta_0+\beta_1 \Psi(x,\lambda_x)+e)$ and use an inverse response plot to find the transformation $g^{-1}$ for Y.
+
+So we begin with the Box-Cox transformation of X. So we are using the following family:
+
+$$
+\Psi(X,\lambda)=\begin{cases} (X^\lambda-1)/\lambda & \lambda \neq 0 \\ log(X)&\lambda=0\end{cases} 
+$$
+
+We will choose $\lambda$ that minimizes the residual sum of squares from fitting $E[Y|X]=\alpha_0+\alpha_1\Psi(x,\lambda)$.
+
+```{r}
+RSS <- rep(0,400)
+lambda <- seq(-2,2,.01)
+for(i in 1:length(lambda)){
+  if(lambda[i]!=0){
+    psi <- (Sales^lambda[i]-1)/lambda[i]
+  }
+  else{
+    psi <- log(Sales)
+  }
+  fit <- lm(Assets~psi)
+  RSS[i] <- sum(fit$residuals^2)
+}
+lambda_chosen <- lambda[which.min(RSS)]
+lambda_chosen
+psi_chosen <- (Sales^lambda_chosen-1)/lambda[i]
+```
+
+The $\lambda$ that minimizes residual sum of squares is `r lambda_chosen`. A plot of RSS by $\lambda$ is below:
+
+```{r}
+plot(x = lambda, y = RSS, type = "l", xlab = "Lambda", ylab = "RSS")
+abline(v = lambda_chosen)
+
+```
+
+We can see how normal the transformed X has become.
+
+```{r, fig.height= 10}
+par(mfrow=c(3,1))
+plot(density(psi_chosen,bw="SJ",kern="gaussian"),type="l",
+main="Gaussian kernel density estimate",xlab="Transformed Sales")
+boxplot(psi_chosen,ylab="Transformed Sales")
+qqnorm(psi_chosen, ylab = "Transformed Sales")
+qqline(psi_chosen, lty = 2, col=2)
+```
+
+The transformed version of Sales is closer to normal compared to before, but still not great.
+
+c\)
+
+We continue the procedure we laid out in part b. First we fit the regression model with our transformed X.
+
+```{r}
+library(car)
+fit_transformed <- lm(Assets~psi_chosen)
+power_transform <- powerTransform(fit_transformed)
+power_transform
+y_lambda <- as.numeric(powerTransform(fit_transformed)$lambda)
+```
+
+Using powerTransform we selected the highest log likelihood value corresponding with $\lambda$. The selected $\lambda$ for Assets is 0.09050312.
+
+```{r}
+Assets_transformed <- (Assets^y_lambda-1)/y_lambda
+```
+
+d\)
+
+```{r}
+Sales_transformed <- psi_chosen
+fully_transformed_fit <- lm(Assets_transformed~Sales_transformed)
+```
+
+```{r, fig.width=10, fig.height=10}
+par(mfrow = c(2,2))
+plot(fully_transformed_fit)
+```
+
+The most striking difference is how much closer the residuals are to a normal distribution. The QQ plot shows the the points fitting the normal QQ line a lot better. The Residuals vs Fitted plot shows the points more evenly distributed around 0. In the residuals vs Leverage plot we can again that the points are more evenly dispersed along the -2 to 2 deviations. The outlier values are also now only at about 2.5 standard deviations away, significantly better than the 4 standard deviations away in model 1. The one weakness is the the bad leverage point indexed at 40. That would need to be examined further.
+
+e\)
+
+Model 2 is superior. Model 1 broke the assumption of normally distributed errors but model 2's residuals are rather close to being normally distributed as discussed in part d. However model 2 does have a clear weakness. Point 40 is a very influential point as it is an outlier and a leverage point, it should be examined before we perform any inference or prediction.
+
+f\)
+
+```{r}
+log_sales <- log(Sales)
+log_assets <- log(Assets)
+log_fit <- lm(log_assets~log_sales)
+summary(log_fit)
+```
+
+The slope $\beta_1$ is 0.587. Our interpretation is that if Sales increases by 1% we expect Assets to increase by .587%.
+
+g\)
+
+The 95% confidence interval of the regression line given $6,571$ million sales is the below, where we transform the endpoints and add the correction factor.
+
+$$
+g^{-1}(\hat{y}^\star+\hat{\sigma}^2/2) \pm g^{-1}(t_{\alpha/2,n-2}\hat{\sigma}\sqrt{\frac{1}{n}+\frac{(x^\star-\bar{x})^2}{SXX}})
+$$
+
+Where $\hat{\sigma}^2=MS_{Error}=\sum_{i=1}^n \hat{e}^2/n-2$ and $g^{-1}(x)=e^x$.
+
+```{r}
+sigma_hat_sq <- sum(log_fit$residuals^2)/(length(log_sales)-2)
+sigma_hat_sq
+sigma_hat <- sqrt(sigma_hat_sq)
+n <- length(log_sales)
+t_stat <- qt(1-0.05/2,n - 2)
+x_bar <- mean(log_sales)
+x_star <- 6571
+SXX <- sum((log_sales - x_bar)^2)
+y_hat <- predict(log_fit,data.frame(log_sales = c(log(6571))))
+```
+
+```{r}
+lower <- exp(y_hat + sigma_hat_sq/2) - exp(t_stat*sigma_hat*sqrt(1/n + (log(x_star)-x_bar)^2/SXX))
+upper <- exp(y_hat + sigma_hat_sq/2) + exp(t_stat*sigma_hat*sqrt(1/n + (log(x_star)-x_bar)^2/SXX))
+```
+
+The confidence interval $E[Y|X=6571]$ is:
+
+(`r round(lower,5)`, `r round(upper,5)`)
+
+For companies with sales of 6571 million we are 95% confident the mean of their assets are between `r round(lower,5)` and `r round(upper,5)`.
