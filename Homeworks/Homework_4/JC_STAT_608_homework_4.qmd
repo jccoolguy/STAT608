@@ -5,6 +5,36 @@ format: pdf
 editor: visual
 ---
 
+2\)
+
+We have the below regression model with $Var(e_i|x_i)=x_i^2 \sigma^2$:
+
+$$
+Y_i=\beta x_i+e_i
+$$ To find the weighted least squares estimate of $\beta$ we use the weighted version of the residual sum of squares where the weights $w_i=1/x_i^2$:
+
+$$
+\text{WRSS}=\sum_{i=1}^n \frac{1}{x_i^2}(y_i-\beta x_i)^2
+$$ To find $\hat{\beta}$ we take the derivative with respect to $\beta$ and set equal to zero:
+
+$$
+\frac{d}{d\beta}(\sum_{i=1}^n \frac{1}{x_i^2}(y_i-\beta x_i)^2)=\sum_{i=1}^n2(-x_i)(\frac{1}{x_i^2})(y_i-\beta x_i)
+$$
+
+$$
+-2\sum_{i=1}^n \frac{1}{x_i}(y_i-\beta x_i)=0 \\
+-2\sum_{i=1}^n \frac{y_i}{x_i}+2\sum_{i=1}^n \beta=0 \\
+\hat{\beta}=\frac{1}{n}\sum_{i=1}^n \frac{y_i}{x_i}
+$$
+
+3\)
+
+a\)
+
+The response variable $Y_i$ is the 2006 median price per square foot. Since $Y_i$ is measure of a median of 1922 subdivisions we use weighted least squares to deal with non-constant variance. The weights $w_i = n_i$ is appropriate since the variance of $Var(Y_i)$ is proportional to n, since $Var(Y_i)=\frac{1}{n} \sum_{i=1}^nVar(u_i)$ where $u_i$ the variance of each group of houses with the same square foot.
+
+b\)
+
 8\)
 
 Loading Company Data
