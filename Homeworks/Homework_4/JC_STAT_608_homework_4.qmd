@@ -35,6 +35,41 @@ The response variable $Y_i$ is the 2006 median price per square foot. Since $Y_i
 
 b\)
 
+There is evidence of non-constant variance in the plot of $\sqrt{\text{Std. Residuals}}$ by Fitted values. As Fitted Values increases the variance of residuals increases on average.
+
+c\)
+
+Since weighted least squares did not create a constant variance structure I would instead fit a simple linear regression model and then explore transformations to remedy the non-constant variance.
+
+4\)
+
+a\)
+
+The response variable Y is the sum of $n_i$ coin weights. Then $Var(y_i)\propto n_i$. So we have $w_i=1/n_i$. Therefore we have the below weight matrix $W$:
+
+$$
+W = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 &0 & 0 \\ 0 & 0 & 1/2 & 0 \\ 0 & 0 &0 & 1/2\end{bmatrix}
+$$
+
+b\)
+
+Using the weighted least squares solution for $\hat{\beta_w}$ we have:
+
+$$
+\hat{\beta_w}=(X^TWX)^{-1}X^TWy
+$$
+
+$$
+X^TW= \begin{bmatrix} 1 & 0 & 1/2 & 1/2 \\ 0 & 1 & 1/2 & 1/2\end{bmatrix}
+$$
+
+$$
+X^TWX=\begin{bmatrix} 2 & 1 \\ 1 & 2\end{bmatrix} \\
+(X^TWX)^{-1}=\frac{1}{3} \begin{bmatrix} 2 & -1 \\ -1 & 2\end{bmatrix} \\
+X^TWy=\begin{bmatrix} y_1+y_3/2+y_4/2 \\ y_2 + y_3/2+y_4/2\end{bmatrix} \\
+\hat{\beta}_w=(X^TWX)^{-1}X^TWX=\frac{1}{3} \begin{bmatrix}2y_1+(y_3-y_2)/2+(y_4-y_2)/2 \\ 2y_2 + (y_3-y_1)/2 +(y_4-y_1)/2\end{bmatrix}
+$$
+
 8\)
 
 Loading Company Data
