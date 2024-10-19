@@ -5,6 +5,61 @@ format: pdf
 editor: visual
 ---
 
+1\)
+
+a\)
+
+For the model $y_i=\alpha + e_i$ we have the design matrix X which has dimensions n x 1:
+
+$$
+X=\begin{bmatrix}1 \\ 1 \\ 1 \\ \vdots \\ 1 \end{bmatrix}
+$$
+
+So the least squares estimate for $\hat{\alpha}$ is:
+
+$$
+\hat{\alpha}=(X^TX)^{-1}X^Ty=\frac{1}{n}\sum_{i=1}^ny_i
+$$
+
+b\)
+
+To create constant variance we use the below weights:
+
+$$
+w_i=\begin{cases} 1 & 1 \leq i \leq n_1 \\ 2 & n_1 < i \leq n\end{cases}
+$$
+
+Then weight matrix W is a n by n matrix with diagonal entries $w_i$. The weighted least squares estimator for $\alpha$ is $\hat{\alpha}_{\text{WLS}}=(X^TWX)^{-1}X^TWy$:
+
+$$
+\hat{\alpha}_{\text{WLS}}=\frac{1}{2n-n_1}(\sum_{i=1}^{n_1}y_i+2\sum_{i=n_1+1}^ny_i)
+$$
+
+c\)
+
+Expected value for both $\hat{\alpha}$ and $\hat{\alpha}_{\text{WLS}}$ is equal to $\alpha$. So since $\text{Bias}=E[\hat{\theta}-\theta]$, $Bias^2=0$ for both $\hat{\alpha}$ and $\hat{\alpha}_{\text{WLS}}$.
+
+Variance for $\hat{\alpha}$ is:
+
+$$
+Var(\hat{\alpha}|x)=\sigma^2(X^TX)^{-1}=\frac{1}{n} \sigma^2
+$$
+
+Variance for $\hat{\alpha}_{\text{WLS}}$ is:
+
+$$
+Var(\hat{\alpha}_{\text{WLS}}|x)=\sigma^2(X^TWX)^{-1}=(\frac{2}{3})\frac{1}{n}\sigma^2
+$$
+
+Then:
+
+$$
+MSE(\hat{\alpha})=Bias^2(\hat{\alpha})+Var(\hat{\alpha})=\frac{1}{n}\sigma^2 \\
+MSE(\hat{\alpha}_{\text{WLS}})=Bias^2(\hat{\alpha}_{\text{WLS}})+Var(\hat{\alpha}_{\text{WLS}})=(\frac{2}{3})\frac{1}{n}\sigma^2
+$$
+
+Since the theoretical MSE of $\hat{\alpha}_{\text{WLS}}$ is smaller than that of $\hat{\alpha}$ we would say that $\hat{\alpha}_{\text{WLS}}$ is a better estimator.
+
 2\)
 
 We have the below regression model with $Var(e_i|x_i)=x_i^2 \sigma^2$:
@@ -69,6 +124,44 @@ X^TWX=\begin{bmatrix} 2 & 1 \\ 1 & 2\end{bmatrix} \\
 X^TWy=\begin{bmatrix} y_1+y_3/2+y_4/2 \\ y_2 + y_3/2+y_4/2\end{bmatrix} \\
 \hat{\beta}_w=(X^TWX)^{-1}X^TWX=\frac{1}{3} \begin{bmatrix}2y_1+(y_3-y_2)/2+(y_4-y_2)/2 \\ 2y_2 + (y_3-y_1)/2 +(y_4-y_1)/2\end{bmatrix}
 $$
+
+5\)
+
+a\)
+
+We can rewrite $\tilde{\beta_1}$ as:
+
+$$
+\tilde{\beta_1}=\frac{1}{5}\begin{bmatrix} -1 \\ -2 \\ 2 \\ 1\end{bmatrix}^Ty
+$$
+
+Bias of $\tilde{\beta_1}$ is $E[\tilde{\beta_1}-\beta_1]=E[\tilde{\beta_1}]-\beta_1$. In order for $\tilde{\beta_1}$ to be unbiased $E[\tilde{\beta_1}]$ must equal $\beta_1$. We calculate $E[\tilde{\beta_1}]$:
+
+$$
+E[\tilde{\beta_1}]=\frac{1}{5}\begin{bmatrix} -1 \\ -2 \\ 2 \\ 1\end{bmatrix}^TE[y|x_i] \\
+E[y|x_i]=\beta_0+\beta_1x_i \\
+E[\tilde{\beta_1}]=\frac{1}{5}\begin{bmatrix} -1 \\ -2 \\ 2 \\ 1\end{bmatrix}^T\begin{bmatrix} \beta_0+\beta_1 \\ \beta_0 + 2\beta_1 \\ \beta_0 + 3\beta_3 \\ \beta_0+4\beta_1\end{bmatrix}=\beta_1 
+$$
+
+The estimator $\tilde{\beta_1}$ is unbiased.
+
+b\)
+
+$$
+Var(\tilde{\beta_1})=(\frac{1}{5})^2\begin{bmatrix} -1 \\ -2 \\ 2 \\ 1\end{bmatrix}^TVar(y) \begin{bmatrix}-1 \\ -2 \\ 2 \\ 1 \end{bmatrix}\\
+Var(y)=\sigma^2I_n \\
+Var(\tilde{\beta_1})=(\frac{1}{5})^2\sigma^2(10)=\frac{2}{5}\sigma^2
+$$
+
+c\)
+
+The least squares estimator $\hat{\beta_1}$ has the below variance:
+
+$$
+Var(\hat{\beta_1})=\frac{\sigma^2}{SXX}=\frac{1}{5}\sigma^2
+$$
+
+The least squares estimator $\hat{\beta_1}$ has half the sampling variance of $\tilde{\beta}$.
 
 8\)
 
