@@ -37,25 +37,58 @@ $$
 
 c\)
 
-Expected value for both $\hat{\alpha}$ and $\hat{\alpha}_{\text{WLS}}$ is equal to $\alpha$. So since $\text{Bias}=E[\hat{\theta}-\theta]$, $Bias^2=0$ for both $\hat{\alpha}$ and $\hat{\alpha}_{\text{WLS}}$.
+The expected value of $\hat{\alpha}$ is:
+
+$$
+E[\hat{\alpha}]=(X^TX)^{-1}X^TE[y] \\
+E[y]=X\alpha \\
+E[\hat{\alpha}]=(X^TX)^{-1}X^TX\alpha=\alpha
+$$
+
+The expected value of $\hat{\alpha}_{\text{wls}}$ is:
+
+$$
+E[\hat{\alpha}_{\text{WLS}}]=(X^TWX^{-1})X^TWE[y] \\
+E[y]=X\alpha \\
+E[\hat{\alpha}_{\text{WLS}}]=(X^TWX^{-1})X^TWX\alpha=\alpha
+$$
+
+Before computing variances for both estimates it is helpful to find $Var(y)$:
+
+$$
+Var(y)=Var(X\alpha+e)=Var(e) \\
+Var(e)= \text{diagonal n x n matrix with } \begin{cases} \Sigma_{i,i}=\sigma^2  & i=1,2,...,n_1 \\ \Sigma_{i,i}= \sigma^2/2 & i=n_1+1,n_1+2,...,n\end{cases}
+$$
 
 Variance for $\hat{\alpha}$ is:
 
 $$
-Var(\hat{\alpha}|x)=\sigma^2(X^TX)^{-1}=\frac{1}{n} \sigma^2
+Var(\hat{\alpha})=(X^TX)^{-1}X^TVar(y)X(X^TX)^{-1} \\
+X^TX=n \\
+Var(\hat{\alpha})=\frac{1}{n^2}(\sum_{i=1}^{n_1}\sigma^2+\sum_{i=n_1+1}^{n}\sigma^2/2)=\frac{3}{4}(\frac{1}{n}\sigma^2)
 $$
 
 Variance for $\hat{\alpha}_{\text{WLS}}$ is:
 
 $$
-Var(\hat{\alpha}_{\text{WLS}}|x)=\sigma^2(X^TWX)^{-1}=(\frac{2}{3})\frac{1}{n}\sigma^2
+Var(\hat{\alpha}_{\text{WLS}})=(X^TWX)^{-1}X^TWVar(y)W^TX(X^TWX)^{-1} \\
+X^TWX=\frac{3}{2}n \\
+Var(\hat{\alpha}_{\text{WLS}})=(\frac{2}{3})^2\frac{1}{n^2}X^TWVar(y)W^TX=\frac{2}{3}(\frac{1}{n}\sigma^2)
 $$
+
+To assess which estimator is better we can use theoretical MSE:
+
+$$
+MSE(\hat{\alpha})=Bias^2(\hat{\alpha})+Var(\hat{\alpha})
+$$
+
+The definition of Bias is $\text{Bias}=E[\hat{\theta}-\theta]$,so since both $E[\hat{\alpha}]=\alpha,E[\hat{\alpha}_{\text{WLS}}]=\alpha$ $Bias^2=0$ for both $\hat{\alpha}$ and $\hat{\alpha}_{\text{WLS}}$.
 
 Then:
 
 $$
-MSE(\hat{\alpha})=Bias^2(\hat{\alpha})+Var(\hat{\alpha})=\frac{1}{n}\sigma^2 \\
-MSE(\hat{\alpha}_{\text{WLS}})=Bias^2(\hat{\alpha}_{\text{WLS}})+Var(\hat{\alpha}_{\text{WLS}})=(\frac{2}{3})\frac{1}{n}\sigma^2
+MSE(\hat{\alpha})=Bias^2(\hat{\alpha})+Var(\hat{\alpha})=\frac{3}{4}(\frac{1}{n}\sigma^2) \\
+MSE(\hat{\alpha}_{\text{WLS}})=Bias^2(\hat{\alpha}_{\text{WLS}})+Var(\hat{\alpha}_{\text{WLS}})=\frac{2}{3}(\frac{1}{n}\sigma^2)
 $$
 
 Since the theoretical MSE of $\hat{\alpha}_{\text{WLS}}$ is smaller than that of $\hat{\alpha}$ we would say that $\hat{\alpha}_{\text{WLS}}$ is a better estimator.
@@ -162,6 +195,43 @@ Var(\hat{\beta_1})=\frac{\sigma^2}{SXX}=\frac{1}{5}\sigma^2
 $$
 
 The least squares estimator $\hat{\beta_1}$ has half the sampling variance of $\tilde{\beta}$.
+
+6\)
+
+a\)
+
+I would include an interaction term. No one is eating a hot dog bun by itself, they are eating it with the hot dog. In that sense the preferred bun is the one that contributes to the tastiest combined product. An interaction terms allows the effect of additional sodium to differ between the two buns and the company to explore what combination of sodium and bum creates the superior product.
+
+b\)
+
+The linear model with an interaction term would be:
+
+$$
+y_i=\beta_0+\beta_1x_1+\beta_2x_2 +\beta_3x_1x_2 +e_i
+$$
+
+With $x_1 = 1\{\text{Type A}\}$. Then the model for each type is below:
+
+$$
+\text{Type A}:y_i=(\beta_0+\beta_1)+(\beta_2+\beta_3)x_2 +e_i \\
+\text{Type B}:y_i=\beta_0+\beta_2 x_2+e_i
+$$
+
+The interpretation of parameters follows:
+
+The parameter $\beta_0$ is the taste of a Bun B hot dog with no sodium content on average.
+
+The parameter $\beta_1$ is the difference between the taste of a Bun A hot dog and a Bun B hot dog with no sodium content on average.
+
+The parameter $\beta_2$ is the effect an additional unit of sodium has on the taste of a Bun B hot dog on average.
+
+The parameter $\beta_3$ is the difference in taste an additional unit of sodium has on Bun A as opposed to Bun B on average.
+
+The hypothesis we would test for a difference in groups would be $H_0:\beta_1=\beta_3=0,H_A:\text{One of } \beta_1,\beta_2 \neq0$.
+
+c\)
+
+We interpreted $\beta_3$ in the previous question. The interaction term allows us to examine how sodium affects Bun A hot dog taste compared to how it affects Bun B hot dog taste.
 
 8\)
 
