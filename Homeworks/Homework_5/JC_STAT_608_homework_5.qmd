@@ -169,3 +169,92 @@ conf_int_beta_1_beta_0
 ```
 
 We can say with 95% confidence that the mean response in treatment group B lies between (`r conf_int_beta_1_beta_0[1]` , `r conf_int_beta_1_beta_0[2]` ).
+
+3\.
+
+| Source of Variation | Degrees of Freedom (df) | Sum of squares (SS)      | Mean square (MS)                 | F                                                     |
+|---------------------|-------------------------|--------------------------|----------------------------------|-------------------------------------------------------|
+| Regression          | $p$                     | $\text{SS}_\text{reg}$   | $\text{SS}_\text{reg}/p$         | $F=\frac{\text{SS}_\text{reg}/p}{\text{RSS}/(n-p-1)}$ |
+| Residual            | $n-p-1$                 | $\text{RSS}$             | $S^2=\frac{\text{RSS}}{(n-p-1)}$ |                                                       |
+| Total               | $n-1$                   | $\text{SST}=\text{SYY}$  |                                  |                                                       |
+
+: Analysis of Variance Table
+
+```{r}
+p = 2
+n = 6
+df_reg <- p
+df_res <- n - p - 1
+df_total <- n - 1
+
+y <- c(3,2,4,6,7,1)
+res <- c(.5, .25 , -0.5, 0.5, -1, 0.25)
+y_bar <- mean(y)
+
+SS_total <- sum((y - y_bar)^2)
+RSS <- sum((res)^2)
+SS_reg <- SS_total - RSS
+
+MS_reg <- SS_reg/df_reg
+MS_res <- RSS/df_res
+
+F_stat <- MS_reg/MS_res
+```
+
+The Analysis of Variance table is below (rounded to 3 decimal points):
+
+| Source of Variation | Degrees of Freedom (df) | Sum of squares (SS)    | Mean square (MS)    | F                   |
+|---------------------|-------------------------|------------------------|---------------------|---------------------|
+| Regression          | 2                       | `r round(SS_reg,3)`    | `r round(MS_reg,3)` | `r round(F_stat,3)` |
+| Residual            | 3                       | `r round(RSS,3)`       | `r round(MS_res,3)` |                     |
+| Total               | 5                       | `r round(SS_total,3)`  |                     |                     |
+
+b\)
+
+$$
+R^2=SS_{reg}/SS_{total} \quad R^2_{adj}=1-\frac{RSS/(n-p-1)}{SS_{total}/(n-1)}
+$$
+
+```{r}
+R_sq <- SS_reg/SS_total
+R_sq_adj <- 1 - (RSS/df_res)/(SS_total/df_total)
+c(R_Squared = R_sq, R_Squared_Adj = R_sq_adj)
+```
+
+4\.
+
+We are interested in the model:
+
+$$
+Y=\beta_0+\beta_1x_1+\beta_2x_2+e
+$$
+
+a\)
+
+The added variable plot plots the residuals from:
+
+$$
+Y=X\beta+e \quad \text{against} \quad X_2=X \delta+e
+$$
+
+Since $x_1=2.2x_2$ the residuals from the right model will be equal to zero.
+
+Then added value plot will have points at varying heights with $x=0$.
+
+```{r}
+library(car)
+set.seed(10)
+y <- rnorm(10)
+set.seed(42)
+x1 <- seq(1,10)
+x2 <- 1/2.2 * x1
+
+m1 <- lm(y ~ x1 + x2)
+m2 <- lm(x2 ~ x1)
+m2_res <- rep(0,10)
+plot(m2_res, m1$residuals)
+```
+
+```{r}
+plot(x = x1, y = x2)
+```
