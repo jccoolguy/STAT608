@@ -173,7 +173,51 @@ The slope is interpreted as follows: As Sales increases by one percent we expect
 
 g\)
 
-#Come back to#
+Since $\log(Y)$ is approximately normally distributed we can say that $Y$ is approximately distributed Log-Normal. So, using facts from the Log-Normal distribution.
+
+$$
+E[Y]=e^{\mu+\sigma^2/2}
+$$ The 95% confidence interval of $\mu$ is:
+
+$$
+\hat{\beta_0}+\hat{\beta}_1x^\star \pm t_{\alpha/2,{n-2}}\hat{\sigma}\sqrt{\frac{1}{n} + \frac{(x^\star-\bar{x})^2}{SXX}}
+$$
+
+Letting LEP be shorthand for the left end point of $\mu$ and REP be shorthand for the right end point of $\mu$ we then have the 95% confidence interval of $E[Y|x=x^\star]$:
+
+$$
+(e^{\text{LEP}}e^{\sigma^2/2},e^{REP}e^{\sigma^2/2})
+$$
+
+Since we don't know $\sigma^2$ we estimate it using $MS_{\text{Error}}$, so the estimated 95% confidence interval of $E[Y|x=x^\star]$ is:
+
+$$
+(e^{\text{LEP}}e^{MS_\text{Error}/2},e^{\text{REP}}e^{MS_{\text{Error}}/2})
+$$
+
+So with $x^\star = \log(6571)$ we can find the 95% confidence interval for the average assets of a company with 6,571 million in sales.
+
+```{r}
+beta_0 <- as.numeric(fit_3$coefficients[1])
+beta_1 <- as.numeric(fit_3$coefficients[2])
+x_star <- log(6571)
+n <- length(Assets)
+MS_error <- sum((fit_3$residuals)^2)/(n - 2)
+critical_value <- qt(1 - .025,df = n - 2)
+x_bar <- mean(log_sales)
+SXX <- sum((log_sales - x_bar)^2)
+
+LEP <- beta_0 + beta_1*x_star - (critical_value*sqrt(MS_error)*sqrt(1/n + (x_star - x_bar)^2/SXX))
+REP <- beta_0 + beta_1*x_star + (critical_value*sqrt(MS_error)*sqrt(1/n + (x_star - x_bar)^2/SXX))
+
+correction_factor <- exp(MS_error/2)
+left <- exp(LEP)*correction_factor
+right <- exp(REP)*correction_factor
+
+c(Left_2.5 = left, Right_97.5 = right)
+```
+
+We expect the average assets of a company with 6,571 million in sales to be between 6,870.029 and 12,888.994 million 95 percent of the time.
 
 9\)
 
