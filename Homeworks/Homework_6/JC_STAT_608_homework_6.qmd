@@ -17,5 +17,125 @@ engine: knitr
 a\)
 
 $$
-\begin{\bmatrix}l \end{bmatrix}
+\Sigma = \begin{bmatrix}49&5 & 4 \\ 5 & 25 & 0 \\ 4 & 0 & 9 \end{bmatrix}
 $$
+
+$$
+R=\begin{bmatrix} 1 & \frac{1}{7} & \frac{4}{21} \\ \frac{1}{7} & 1 & 0 \\ \frac{4}{21} & 0 & 1\\\end{bmatrix}
+$$
+
+b\)
+
+That formula can be generalized to:
+
+$$
+Var(a^TX)=a^T\Sigma a
+$$
+
+Where X is the matrix containing $x_1,x_2,x_3$, $\Sigma$ is the covariance matrix and $a$ is length three vector containing the coefficients on $x_1,x_2,x_3$.
+
+```{r}
+Sigma = matrix(c(49,5,4,5,25,0,4,0,9),nrow = 3, ncol = 3)
+Sigma
+```
+
+1\.
+
+$a=(2,-2,0)$
+
+```{r}
+a_1 <- c(2,-2,0)
+as.numeric(t(a_1)%*%Sigma%*%a_1)
+```
+
+2\.
+
+$a = (2,-1,5)$
+
+```{r}
+a_2 <- c(2,-1,5)
+as.numeric(t(a_2)%*%Sigma%*%a_2)
+```
+
+3\.
+
+$a = (-1,1,2)$
+
+```{r}
+a_3 <- c(-1,1,2)
+as.numeric(t(a_3)%*%Sigma%*%a_3)
+```
+
+4\.
+
+$a=(-\beta_1,-\beta_2,1)$
+
+$$
+\text{Var}(a_1X_1+a_2X_2+a_3X_3)=49\beta_1^2+25\beta_2^2+9+10\beta_1\beta_2-8\beta_1
+$$
+
+Let's say we have the multiple linear model:
+
+$$
+y=\beta_1X_1+\beta_2X_2+e
+$$
+
+If we solve for $e_i$ we have:
+
+$$
+e=y-\beta_1X_1-\beta_2X_2
+$$
+
+This is the identical linear combination from before except this time $X_3=y$. In this setting we naturally want to find the minimum of $\text{Var}(e)$, as it would give us the least square estimates of $\beta_1,\beta_2$.
+
+c\)
+
+After taking derivatives with the respect of $b_1$ and $b_2$ and setting equal to zero we have the two normal equations:
+
+$$
+98b_1+10b_2=8
+$$
+
+$$
+10 b_1+50b_2=0
+$$
+
+d\)
+
+In matrix form we have:
+
+$$
+\begin{bmatrix} 98&10\\ 10 &50\end{bmatrix}\begin{bmatrix}b_1 \\ b_2 \end{bmatrix}=\begin{bmatrix} 8 \\ 0\end{bmatrix}
+$$
+
+Which has solution, $b_1=1/12,b_2=-\frac{1}{60}$.
+
+2\)
+
+$$
+y=\beta_0+\beta_1x_1+\beta_2x_2+e
+$$
+
+We have design matrix X:
+
+$$
+\begin{bmatrix} 1_n & x_1 & x_2\end{bmatrix}
+$$
+
+a\)
+
+When we compute $X^TX$ we have:
+
+$$
+X^TX=\begin{bmatrix} 1_n \\ x_1  \\ x_2\end{bmatrix}\begin{bmatrix} 1_n & x_1 & x_2\end{bmatrix}=\begin{bmatrix} n & \sum_{i=1}^n x_{1i} & \sum_{i=1}^nx_{2i} \\ \sum_{i=1}^nx_{1i} & \sum_{i=1}^nx_{1i}^2& \sum_{i=1}^nx_{1i}x_{2i} \\ \sum_{i=1}^nx_{2i} & \sum_{i=1}^nx_{1i}x_{2i} & \sum_{i=1}^nx_{2i}^2\end{bmatrix}
+$$
+
+Knowing that the mean of $x_1$ and $x_2$ is zero we can say $\sum_{i=1}^n x_{1i}=\sum_{i=1}^nx_{2i}=0$.
+
+Knowing that the length of $x_1$ and $x_2$ is one we can say $\sum_{i=1}^nx_{1i}^2=\sum_{i=1}^n x_{2i}^2=1$.
+
+We can rewrite $\sum_{i=1}^nx_{1i}x_{2i}$ as $\sum_{i=1}^n(x_{1i}-\bar{x}_1)(x_{2i}-\bar{x}_2)$ since $\bar{x}_1=\bar{x}_2=0$. That is the numerator of the sample correlation between $x_1$ and $x_2$.
+
+The denominator of the sample correlation between $x_1$ and $x_2$ is $\sqrt{\sum_{i=1}^n(x_{1i}-\bar{x}_1)^2\sum_{i=1}^n(x_{2i}-\bar{x}_2})^2$. Using $\bar{x}_1=\bar{x}_2=0$, we then have $\sqrt{\sum_{i=1}^nx_{1i}^2\sum_{i=1}^nx_{2i}^2}$ both terms are equal to 1 since the length of $x_1$ and $x_2$ is one.
+
+With that we have shown:
