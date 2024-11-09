@@ -1,9 +1,394 @@
 ---
 title: "STAT 608 Homework 4"
 author: "Jack Cunningham"
-format: pdf
+date-format: short
+format:
+  pdf:
+    include-in-header:
+      - text: |
+          \usepackage{amsmath}
+    pdf-math-method: katex
 editor: visual
+engine: knitr
 ---
+
+1\)
+
+a\)
+
+For the model $y_i=\alpha + e_i$ we have the design matrix X which has dimensions n x 1:
+
+$$
+X=\begin{bmatrix}1 \\ 1 \\ 1 \\ \vdots \\ 1 \end{bmatrix}
+$$
+
+So the least squares estimate for $\hat{\alpha}$ is:
+
+$$
+\hat{\alpha}=(X^TX)^{-1}X^Ty=\frac{1}{n}\sum_{i=1}^ny_i
+$$
+
+b\)
+
+To create constant variance we use the below weights:
+
+$$
+w_i=\begin{cases} 1 & 1 \leq i \leq n_1 \\ 2 & n_1 < i \leq n\end{cases}
+$$
+
+Then weight matrix W is a n by n matrix with diagonal entries $w_i$. The weighted least squares estimator for $\alpha$ is $\hat{\alpha}_{\text{WLS}}=(X^TWX)^{-1}X^TWy$:
+
+$$
+\hat{\alpha}_{\text{WLS}}=\frac{1}{2n-n_1}(\sum_{i=1}^{n_1}y_i+2\sum_{i=n_1+1}^ny_i)
+$$
+
+c\)
+
+The expected value of $\hat{\alpha}$ is:
+
+$$
+E[\hat{\alpha}]=(X^TX)^{-1}X^TE[y]
+$$
+
+$$
+E[y]=X\alpha
+$$
+
+$$
+E[\hat{\alpha}]=(X^TX)^{-1}X^TX\alpha=\alpha
+$$
+
+The expected value of $\hat{\alpha}_{\text{wls}}$ is:
+
+$$
+E[\hat{\alpha}_{\text{WLS}}]=(X^TWX^{-1})X^TWE[y]
+$$
+
+$$
+E[y]=X\alpha
+$$
+
+$$
+E[\hat{\alpha}_{\text{WLS}}]=(X^TWX^{-1})X^TWX\alpha=\alpha
+$$
+
+Before computing variances for both estimates it is helpful to find $Var(y)$:
+
+$$
+Var(y)=Var(X\alpha+e)=Var(e)
+$$
+
+$$
+Var(e)= \text{diagonal n x n matrix with } \begin{cases} \Sigma_{i,i}=\sigma^2  & i=1,2,…,n_1 \\ \Sigma_{i,i}= \sigma^2/2 & i=n_1+1,n_1+2,…,n\end{cases}
+$$
+
+Variance for $\hat{\alpha}$ is:
+
+$$
+Var(\hat{\alpha})=(X^TX)^{-1}X^TVar(y)X(X^TX)^{-1}
+$$
+
+$$
+X^TX=n
+$$
+
+$$
+Var(\hat{\alpha})=\frac{1}{n^2}(\sum_{i=1}^{n_1}\sigma^2+\sum_{i=n_1+1}^{n}\sigma^2/2)=\frac{3}{4}(\frac{1}{n}\sigma^2
+$$
+
+Variance for $\hat{\alpha}_{\text{WLS}}$ is:
+
+$$
+Var(\hat{\alpha}_{\text{WLS}})=(X^TWX)^{-1}X^TWVar(y)W^TX(X^TWX)^{-1}
+$$
+
+$$
+X^TWX=\frac{3}{2}n
+$$
+
+$$
+Var(\hat{\alpha}_{\text{WLS}})=(\frac{2}{3})^2\frac{1}{n^2}X^TWVar(y)W^TX=\frac{2}{3}(\frac{1}{n}\sigma^2)
+$$
+
+To assess which estimator is better we can use theoretical MSE:
+
+$$
+MSE(\hat{\alpha})=Bias^2(\hat{\alpha})+Var(\hat{\alpha})
+$$
+
+The definition of Bias is $\text{Bias}=E[\hat{\theta}-\theta]$,so since both $E[\hat{\alpha}]=\alpha,E[\hat{\alpha}_{\text{WLS}}]=\alpha$ $Bias^2=0$ for both $\hat{\alpha}$ and $\hat{\alpha}_{\text{WLS}}$.
+
+Then:
+
+$$
+MSE(\hat{\alpha})=Bias^2(\hat{\alpha})+Var(\hat{\alpha})=\frac{3}{4}(\frac{1}{n}\sigma^2)
+$$
+
+$$
+MSE(\hat{\alpha}_{\text{WLS}})=Bias^2(\hat{\alpha}_{\text{WLS}})+Var(\hat{\alpha}_{\text{WLS}})=\frac{2}{3}(\frac{1}{n}\sigma^2)
+$$
+
+Since the theoretical MSE of $\hat{\alpha}_{\text{WLS}}$ is smaller than that of $\hat{\alpha}$ we would say that $\hat{\alpha}_{\text{WLS}}$ is a better estimator.
+
+2\)
+
+We have the below regression model with $Var(e_i|x_i)=x_i^2 \sigma^2$:
+
+$$
+Y_i=\beta x_i+e_i
+$$ To find the weighted least squares estimate of $\beta$ we use the weighted version of the residual sum of squares where the weights $w_i=1/x_i^2$:
+
+$$
+\text{WRSS}=\sum_{i=1}^n \frac{1}{x_i^2}(y_i-\beta x_i)^2
+$$ To find $\hat{\beta}$ we take the derivative with respect to $\beta$ and set equal to zero:
+
+$$
+\frac{d}{d\beta}(\sum_{i=1}^n \frac{1}{x_i^2}(y_i-\beta x_i)^2)=\sum_{i=1}^n2(-x_i)(\frac{1}{x_i^2})(y_i-\beta x_i)
+$$
+
+$$
+-2\sum_{i=1}^n \frac{1}{x_i}(y_i-\beta x_i)=0
+$$
+
+$$
+-2\sum_{i=1}^n \frac{y_i}{x_i}+2\sum_{i=1}^n \beta=0
+$$
+
+$$
+\hat{\beta}=\frac{1}{n}\sum_{i=1}^n \frac{y_i}{x_i}
+$$
+
+3\)
+
+a\)
+
+The response variable $Y_i$ is the 2006 median price per square foot. Since $Y_i$ is measure of a median of 1922 subdivisions we use weighted least squares to deal with non-constant variance. The weights $w_i = n_i$ is appropriate since the variance of $Var(Y_i)$ is proportional to n, since $Var(Y_i)=\frac{1}{n} \sum_{i=1}^nVar(u_i)$ where $u_i$ the variance of each group of houses with the same square foot.
+
+b\)
+
+There is evidence of non-constant variance in the plot of $\sqrt{\text{Std. Residuals}}$ by Fitted values. As Fitted Values increases the variance of residuals increases on average.
+
+c\)
+
+Since weighted least squares did not create a constant variance structure I would instead fit a simple linear regression model and then explore transformations to remedy the non-constant variance.
+
+4\)
+
+a\)
+
+The response variable Y is the sum of $n_i$ coin weights. Then $Var(y_i)\propto n_i$. So we have $w_i=1/n_i$. Therefore we have the below weight matrix $W$:
+
+$$
+W = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 &0 & 0 \\ 0 & 0 & 1/2 & 0 \\ 0 & 0 &0 & 1/2\end{bmatrix}
+$$
+
+b\)
+
+Using the weighted least squares solution for $\hat{\beta_w}$ we have:
+
+$$
+\hat{\beta_w}=(X^TWX)^{-1}X^TWy
+$$
+
+$$
+X^TW= \begin{bmatrix} 1 & 0 & 1/2 & 1/2 \\ 0 & 1 & 1/2 & 1/2\end{bmatrix}
+$$
+
+$$
+X^TWX=\begin{bmatrix} 2 & 1 \\ 1 & 2\end{bmatrix}
+$$
+
+$$
+(X^TWX)^{-1}=\frac{1}{3} \begin{bmatrix} 2 & -1 \\ -1 & 2\end{bmatrix}
+$$
+
+$$
+X^TWy=\begin{bmatrix} y_1+y_3/2+y_4/2 \\ y_2 + y_3/2+y_4/2\end{bmatrix}
+$$
+
+$$
+\hat{\beta}_w=(X^TWX)^{-1}X^TWX=\frac{1}{3} \begin{bmatrix}2y_1+(y_3-y_2)/2+(y_4-y_2)/2 \\ 2y_2 + (y_3-y_1)/2 +(y_4-y_1)/2\end{bmatrix}
+$$
+
+5\)
+
+a\)
+
+We can rewrite $\tilde{\beta_1}$ as:
+
+$$
+\tilde{\beta_1}=\frac{1}{5}\begin{bmatrix} -1 \\ -2 \\ 2 \\ 1\end{bmatrix}^Ty
+$$
+
+Bias of $\tilde{\beta_1}$ is $E[\tilde{\beta_1}-\beta_1]=E[\tilde{\beta_1}]-\beta_1$. In order for $\tilde{\beta_1}$ to be unbiased $E[\tilde{\beta_1}]$ must equal $\beta_1$. We calculate $E[\tilde{\beta_1}]$:
+
+$$
+E[\tilde{\beta_1}]=\frac{1}{5}\begin{bmatrix} -1 \\ -2 \\ 2 \\ 1\end{bmatrix}^TE[y|x_i] \\
+$$
+
+$$
+E[y|x_i]=\beta_0+\beta_1x_i
+$$
+
+$$
+E[\tilde{\beta_1}]=\frac{1}{5}\begin{bmatrix} -1 \\ -2 \\ 2 \\ 1\end{bmatrix}^T\begin{bmatrix} \beta_0+\beta_1 \\ \beta_0 + 2\beta_1 \\ \beta_0 + 3\beta_3 \\ \beta_0+4\beta_1\end{bmatrix}=\beta_1 
+$$
+
+The estimator $\tilde{\beta_1}$ is unbiased.
+
+b\)
+
+$$
+Var(\tilde{\beta_1})=(\frac{1}{5})^2\begin{bmatrix} -1 \\ -2 \\ 2 \\ 1\end{bmatrix}^TVar(y) \begin{bmatrix}-1 \\ -2 \\ 2 \\ 1 \end{bmatrix}
+$$
+
+$$
+Var(y)=\sigma^2I_n
+$$
+
+$$
+Var(\tilde{\beta_1})=(\frac{1}{5})^2\sigma^2(10)=\frac{2}{5}\sigma^2
+$$
+
+c\)
+
+The least squares estimator $\hat{\beta_1}$ has the below variance:
+
+$$
+Var(\hat{\beta_1})=\frac{\sigma^2}{SXX}=\frac{1}{5}\sigma^2
+$$
+
+The least squares estimator $\hat{\beta_1}$ has half the sampling variance of $\tilde{\beta}$.
+
+6\)
+
+a\)
+
+I would include an interaction term. No one is eating a hot dog bun by itself, they are eating it with the hot dog. In that sense the preferred bun is the one that contributes to the tastiest combined product. An interaction terms allows the effect of additional sodium to differ between the two buns and the company to explore what combination of sodium and bun creates the superior product.
+
+b\)
+
+The linear model with an interaction term would be:
+
+$$
+y_i=\beta_0+\beta_1x_1+\beta_2x_2 +\beta_3x_1x_2 +e_i
+$$
+
+With $x_1 = 1\{\text{Type A}\}$. Then the model for each type is below:
+
+$$
+\text{Type A}:y_i=(\beta_0+\beta_1)+(\beta_2+\beta_3)x_2 +e_i
+$$
+
+$$
+\text{Type B}:y_i=\beta_0+\beta_2 x_2+e_i
+$$
+
+The interpretation of parameters follows:
+
+The parameter $\beta_0$ is the taste of a Bun B hot dog with no sodium content on average.
+
+The parameter $\beta_1$ is the difference between the taste of a Bun A hot dog and a Bun B hot dog with no sodium content on average.
+
+The parameter $\beta_2$ is the effect an additional unit of sodium has on the taste of a Bun B hot dog on average.
+
+The parameter $\beta_3$ is the difference in taste an additional unit of sodium has on Bun A as opposed to Bun B on average.
+
+The hypothesis we would test for a difference in groups would be $H_0:\beta_1=\beta_3=0,H_A:\text{One of } \beta_1,\beta_2 \neq0$.
+
+c\)
+
+We interpreted $\beta_3$ in the previous question. The interaction term allows us to examine how sodium affects Bun A hot dog taste compared to how it affects Bun B hot dog taste.
+
+7\)
+
+A one-way ANOVA model with k = 3 groups and 4 observations per group without an intercept has the below model:
+
+$$
+y_i=\beta_1x_{1i}+\beta_2x_{2i}+\beta_3x_{3i} +e_i
+$$
+
+$$
+x_{1i}=1\{\text{Category 1}\},x_{2i}=1\{\text{Category 2}\},x_{3i}=1\{\text{Category 3}\}
+$$
+
+The design matrix X is:
+
+$$
+X=\begin{bmatrix} 1&0&0 \\ 1&0&0 \\ 1& 0 & 0 \\ 1& 0 & 0 \\ 0 &1 & 0 \\ 0 &1 & 0\\ 0 &1 & 0 \\ 0 &1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 1 \\ 0 & 0 & 1 \\ 0 & 0 & 1\end{bmatrix}
+$$
+
+Then the least squares estimate $\hat{\beta}$ is:
+
+$$
+\hat{\beta}=(X^TX)^{-1}X^Ty=\begin{bmatrix}\frac{1}{4} \sum_{i=1}^4y_i \\\frac{1}{4} \sum_{i=5}^8y_i \\\frac{1}{4} \sum_{i=9}^{12}y_i \end{bmatrix} = \begin{bmatrix}\mu_1  \\ \mu_2 \\ \mu_3 \end{bmatrix}
+$$
+
+a\)
+
+The hypothesis we are testing is $H_0:(\mu_1+\mu_2)/2=\mu_3$. Since $E[\beta_i]=\mu_i$ we can rewrite the null hypothesis as:
+
+$$
+H_0:\begin{bmatrix}1/2 &1/2&-1 \end{bmatrix}\beta=0,H_a= \text{Not equal to zero}
+$$
+
+We test this using the F statistic:
+
+$$
+F=\frac{(A\hat{\beta}-h)^T(A(X^TX)^{-1}A^T)(A\hat{\beta}-h)/r}{\hat{e}^T\hat{e}/(n-p-1)}
+$$
+
+We can simplify this statistic:
+
+$$
+(A\hat{\beta}-h)=\frac{1}{2}\mu_1+\frac{1}{2}\mu_2-\mu_3
+$$
+
+$$
+(X^TX)^{-1}=diag(1/4,1/4,1/4)
+$$
+
+$$
+(A(X^TX)^{-1}A^T)^{-1}=16/6
+$$
+
+$$
+r = 1
+$$
+
+$$
+\hat{e}^T\hat{e}/(n-p-1)=SS_{\text{Error Full}}/\text{df}_{\text{Error Full}}
+$$
+
+$$
+\text{df}_\text{error Full} = 12-3=9(\text{No intercept term here)}
+$$
+
+So F equals:
+
+$$
+F=\frac{16}{6}\frac{(\frac{1}{2}\mu_1+\frac{1}{2}\mu_2-\mu_3)^2}{SS_{\text{Error Full}/9}}
+$$
+
+b\)
+
+```{r}
+mu_1 <- 5.6
+mu_2 <- 7.9
+mu_3 <- 6.1
+SSE <- 12.8
+F <- 16/6*(1/2*mu_1+1/2*mu_2-mu_3)^2/(SSE/9)
+F
+```
+
+The F statistic in this case is $f=$ `r F`.
+
+```{r}
+alpha <- 0.05
+p_value <- 1 - pf(F, 1, 9)
+```
+
+The computed p-value is $P(F_{1,9}>f)$=`r p_value`. We cannot reject the null hypothesis that $(\mu_1+\mu_2)/2=\mu_3$.
 
 8\)
 
@@ -173,51 +558,34 @@ The slope is interpreted as follows: As Sales increases by one percent we expect
 
 g\)
 
-Since $\log(Y)$ is approximately normally distributed we can say that $Y$ is approximately distributed Log-Normal. So, using facts from the Log-Normal distribution.
+Our transformation shows us that $log(Y)$ is close to normally distribution. That means that Y is close to the log normal distribution. The mean of the log-normal distribution is:
 
 $$
-E[Y]=e^{\mu+\sigma^2/2}
-$$ The 95% confidence interval of $\mu$ is:
-
-$$
-\hat{\beta_0}+\hat{\beta}_1x^\star \pm t_{\alpha/2,{n-2}}\hat{\sigma}\sqrt{\frac{1}{n} + \frac{(x^\star-\bar{x})^2}{SXX}}
+E[Y]=e^{\mu+\sigma^2}
 $$
 
-Letting LEP be shorthand for the left end point of $\mu$ and REP be shorthand for the right end point of $\mu$ we then have the 95% confidence interval of $E[Y|x=x^\star]$:
-
-$$
-(e^{\text{LEP}}e^{\sigma^2/2},e^{REP}e^{\sigma^2/2})
-$$
-
-Since we don't know $\sigma^2$ we estimate it using $MS_{\text{Error}}$, so the estimated 95% confidence interval of $E[Y|x=x^\star]$ is:
-
-$$
-(e^{\text{LEP}}e^{MS_\text{Error}/2},e^{\text{REP}}e^{MS_{\text{Error}}/2})
-$$
-
-So with $x^\star = \log(6571)$ we can find the 95% confidence interval for the average assets of a company with 6,571 million in sales.
+Then our correction to move from our transformed model back to the units of the original question we have the correction $e^{\text{endpoint}+MSE/2}$.
 
 ```{r}
+x_star_transformed <- log(6571)
+sigma_hat <- sqrt(sum(fit_3$residuals^2)/(79-1))
+n <- length(Sales)
+x_bar_transformed <- mean(log_sales)
+SXX <- sum((log_sales - x_bar_transformed)^2)
 beta_0 <- as.numeric(fit_3$coefficients[1])
 beta_1 <- as.numeric(fit_3$coefficients[2])
-x_star <- log(6571)
-n <- length(Assets)
-MS_error <- sum((fit_3$residuals)^2)/(n - 2)
-critical_value <- qt(1 - .025,df = n - 2)
-x_bar <- mean(log_sales)
-SXX <- sum((log_sales - x_bar)^2)
-
-LEP <- beta_0 + beta_1*x_star - (critical_value*sqrt(MS_error)*sqrt(1/n + (x_star - x_bar)^2/SXX))
-REP <- beta_0 + beta_1*x_star + (critical_value*sqrt(MS_error)*sqrt(1/n + (x_star - x_bar)^2/SXX))
-
-correction_factor <- exp(MS_error/2)
-left <- exp(LEP)*correction_factor
-right <- exp(REP)*correction_factor
-
-c(Left_2.5 = left, Right_97.5 = right)
+conf_int <- beta_0+ beta_1*x_star_transformed + c(-1,1)*qt(1 - .025,df = 79-1)*sigma_hat*sqrt(1/n + (x_star_transformed - x_bar_transformed)^2/SXX)
+conf_int
 ```
 
-We expect the average assets of a company with 6,571 million in sales to be between 6,870.029 and 12,888.994 million 95 percent of the time.
+The interval we need to transform is `r conf_int`. We apply the previously stated correction.
+
+```{r}
+corrected_conf_int <- exp(conf_int + sigma_hat^2/2)
+corrected_conf_int
+```
+
+Among companies with 6571 million in sales we are 95% confident that the mean of assets will fall between 6841.006 and 12781.082 million.
 
 9\)
 
