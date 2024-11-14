@@ -120,7 +120,7 @@ $$
 2 \begin{bmatrix}49 & 5 & 4 \\ 5 & 25 & 0 \end{bmatrix}\begin{bmatrix}b_1 \\ b_2 \\ -1 \end{bmatrix}=\begin{bmatrix} 0 \\ 0 \end{bmatrix}
 $$
 
-Which has solution, $b_1=\frac{9}{4},b_2=-\frac{-9}{20}$.
+Which has solution, $b_1=\frac{1}{12},b_2=-\frac{-1}{60}$.
 
 2\)
 
