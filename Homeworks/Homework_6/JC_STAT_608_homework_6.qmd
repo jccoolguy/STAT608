@@ -93,7 +93,17 @@ c\)
 After taking derivatives with the respect of $b_1$ and $b_2$ and setting equal to zero we have the two normal equations:
 
 $$
-98b_1+10b_2=8
+2b_1 \text{Var}(X_1)+2b_2 \text{Cov}(X_1,X_2)-2\text{Cov}(X_1,X_3)=0
+$$
+
+$$
+2b_2 \text{Var}(X_2)+2b_1 \text{Cov}(X_1,X_2)-2\text{Cov}(X_2,X_3)=0
+$$
+
+Or in our case:
+
+$$
+98b_1+10b_2-8=0
 $$
 
 $$
@@ -102,13 +112,15 @@ $$
 
 d\)
 
-In matrix form we have:
-
 $$
-\begin{bmatrix} 98&10\\ 10 &50\end{bmatrix}\begin{bmatrix}b_1 \\ b_2 \end{bmatrix}=\begin{bmatrix} 8 \\ 0\end{bmatrix}
+2\begin{bmatrix}\text{Var}(X_1) & \text{Cov}(X_1,X_2) &\text{Cov}(X_1,X_3) \\ \text{Cov}(X_1,X_2)& \text{Var}(X_2) &\text{Cov}(X_2,X_3)\end{bmatrix} \begin{bmatrix}b_1 \\ b_2 \\ -1 \end{bmatrix}=\begin{bmatrix}0 \\ 0 \end{bmatrix}
 $$
 
-Which has solution, $b_1=1/12,b_2=-\frac{1}{60}$.
+$$
+2 \begin{bmatrix}49 & 5 & 4 \\ 5 & 25 & 0 \end{bmatrix}\begin{bmatrix}b_1 \\ b_2 \\ -1 \end{bmatrix}=\begin{bmatrix} 0 \\ 0 \end{bmatrix}
+$$
+
+Which has solution, $b_1=\frac{9}{4},b_2=-\frac{-9}{20}$.
 
 2\)
 
@@ -247,6 +259,36 @@ When $\rho\geq \sqrt{4/5}$ $Var(\beta_1)$ and $Var(\beta_2)$ are greater than $5
 e\)
 
 In part d we see that as the correlation between $X_1$ and $X_2$ increases the variance of their coefficients increases. This is the issue with multicollinearity, estimates of coefficients become unstable if correlation between the explanatory variables are high. It impacts our ability to perform inference and often lends towards counter intuitive results.
+
+3\)
+
+a\)
+
+The $R^2_{\text{adj}}$ criterion would select either $X_1,X_2$ or $X_1,X_2,X_3$ since each subset has $R^2_{\text{adj}}=1$.
+
+The AIC criterion would select $X_1,X_2$ as it has the lowest AIC of -316.2008.
+
+THE BIC criterion would also select $X_1,X_2$ as it has lowest BIC of -317.3725.
+
+b\)
+
+The forward selection method based on AIC would select $X_3$ as its model.
+
+The backward selection method based on BIC would select $X_3$ as its model as well.
+
+c\)
+
+The difference is due to the details of the forward selection procedure.
+
+In forward selection the first step is to find the predictor that minimizes AIC, in this case that would be $X_3$. The next step finds another predictor to pair with $X_3$ , but there is no acceptable choice as both $X_1$ and $X_2$ do not reduce the AIC/BIC of the model.
+
+The forward selection method does not have the ability to look past the current step, if say the full relationship in Y is described by $X_1,X_2,X_3$ we cannot look past $X_3,X_2$ and $X_3,X_1$ to get to that point.
+
+On the other hand the all possible subsets method checks each combination of predictors, with p = 3 this is a reasonable approach but with a large amount of predictors this becomes unfeasible as we would have to build $2^p$ models.
+
+d\)
+
+In this case I'd say it depends on the goal. If it is prediction I would use $X_1,X_2$, this combination seems to capture the full relationship in Y. An issue is the relationship between $X_1$ and $X_2$, they are essentially perfectly negatively correlated. This would make interpretation difficult as the model struggles with multicollinearity. So if the goal is interpretation I would use $X_3$, it explains most of the variance in Y and would be simpler to understand.
 
 4\)
 
