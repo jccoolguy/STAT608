@@ -1,0 +1,69 @@
+---
+title: "STAT 608 HW 7"
+author: "Jack Cunningham (jgavc@tamu.edu)"
+date: 11/22/2024
+date-format: short
+format:
+  pdf:
+    include-in-header:
+      - text: |
+          \usepackage{amsmath}
+editor: visual
+engine: knitr
+---
+
+1\)
+
+We have the logistic regression model with one predictor:
+
+$$
+\log(\frac{\theta(x)}{1-\theta(x)})=\beta_0+\beta_1x
+$$
+
+a\)
+
+We apply $e^x$ to both sides:
+
+$$
+\frac{\theta(x)}{1-\theta(x)}=e^{\beta_0+\beta_1x}
+$$
+
+Multiply both sides by $1-\theta(x)$:
+
+$$
+\theta(x)=(1-\theta(x))e^{\beta_0+\beta_1x}
+$$
+
+$$
+\theta(x)=e^{\beta_0+\beta_1x}-e^{\beta_0+\beta_1x}\theta(x)
+$$
+
+$$
+\theta(x)+e^{\beta_0+\beta_1x} \theta(x)=e^{\beta_0+\beta_1x}
+$$
+
+On left side we factor out $\theta(x)$:
+
+$$
+\theta(x)(1+e^{\beta_0+\beta_1x})=e^{\beta_0+\beta_1x}
+$$
+
+We are left with the desired result:
+
+$$
+\theta(x)=\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}
+$$
+
+b\)
+
+Starting from our result in a, we multiply by $e^{-(\beta_0+\beta_1x)}/e^{-(\beta_0+\beta_1x)}$:
+
+$$
+\theta(x)=(\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}})\frac{e^{-(\beta_0+\beta_1x)}}{e^{-(\beta_0+\beta_1x)}}
+$$
+
+With $e^{-(\beta_0+\beta_1x)}e^{\beta_0+\beta_1x}=1$, we distribute through and are left with the desired result:
+
+$$
+\theta(x)=\frac{1}{1+e^{-(\beta_0+\beta_x)}}
+$$

@@ -1,0 +1,27 @@
+---
+title: "Chapter 8 For Practice"
+author: "Jack Cunningham"
+format: html
+editor: visual
+---
+
+```{r}
+df <- read.delim("MichelinFood.txt", sep = "\t")
+head(df)
+attach(df)
+```
+
+```{r}
+plot(Food, proportion, xlab = "Food Rating", ylab = "proportion")
+```
+
+```{r}
+m1 <- glm(cbind(InMichelin,NotInMichelin) ~ Food, family = binomial)
+```
+
+```{r}
+x <- seq(15,28,0.05)
+y <- 1/(1+exp(-1*(m1$coeff[1] + m1$coeff[2]*x)))
+plot(Food,proportion,ylab="Probability of inclusion in the Michelin Guide",xlab="Zagat Food Rating")
+lines(x,y)
+```
