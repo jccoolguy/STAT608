@@ -67,3 +67,81 @@ With $e^{-(\beta_0+\beta_1x)}e^{\beta_0+\beta_1x}=1$, we distribute through and 
 $$
 \theta(x)=\frac{1}{1+e^{-(\beta_0+\beta_x)}}
 $$
+
+2\)
+
+We can use the Bernoulli distribution for the conditional distribution of $X|Y=1$ and $X|Y=0$. So:
+
+$$
+P(X=x|Y=0)=\pi_0^x(1-\pi_0)^{1-x}
+$$
+
+$$
+P(X=x|Y=1)=\pi_1^x(1-\pi_1)^{1-x}
+$$
+
+This will help with the next two parts.
+
+a\)
+
+On page 283 it is derived that when X is a discrete random variable we have:
+
+$$
+\log \left( \frac{\theta(x)}{1-\theta(x)} \right)=\log \left( \frac{P(Y=1)}{P(Y=0)}\right) + \log \left( \frac{P(X=x|Y=1)}{P(X=x|Y=0)} \right)
+$$
+
+Using our conditional distributions from earlier we have:
+
+$$
+\log \left( \frac{\theta(x)}{1-\theta(x)} \right)=\log \left( \frac{P(Y=1)}{P(Y=0)}\right) + \log \left( \frac{\pi_1^x(1-\pi_1)^{1-x}}{\pi_0^x(1-\pi_0)^{1-x}}\right)
+$$
+
+$$
+\log \left( \frac{\theta(x)}{1-\theta(x)} \right)=\log \left( \frac{P(Y=1)} {P(Y=0)}\right)+x \log(\pi_1)+\log(1-\pi_1)-x\log(1-\pi_1)-x\log(\pi_0)- \log(1-\pi_0) + x\log(1-\pi_0) 
+$$
+
+$$
+\log \left( \frac{\theta(x)}{1-\theta(x)} \right)=\log \left( \frac{P(Y=1)}{P(Y=0)}\right)+\log \left( \frac{1-\pi_1}{1-\pi_0}\right)+x \log \left( \frac{\pi_1(1-\pi_0)}{\pi_0(1-\pi_1)}\right)
+$$
+
+We can see that this the log odds of x are a linear function of x.
+
+b\)
+
+The slope $\beta_1$ and intercept $\beta_0$ are:
+
+$$
+\beta_1= \log \left( \frac{\pi_1(1-\pi_0)}{\pi_0(1-\pi_1)}\right),\beta_0=\log \left( \frac{P(Y=1)}{P(Y=0)}\right)+\log \left( \frac{1-\pi_1}{1-\pi_0}\right)
+$$
+
+3\)
+
+The gamma distribution has density function:
+
+$$
+f(x;\alpha,\beta)=\frac{1}{\Gamma(\alpha)\beta^{\alpha}}x^{\alpha-1}e^{-x/\beta} \quad \text{}x,\alpha,\beta>0
+$$
+
+On page 283 it is shown that when X is a continuous variable the log odds function is:
+
+$$
+\log \left( \frac{\theta(x)}{1-\theta(x)} \right)=\log \left( \frac{P(Y=1)}{P(Y=0)}\right)+\log \left( \frac{f(x|Y=1)}{f(x|Y=0)} \right)
+$$
+
+Each conditional distribution will have its own $\alpha,\beta$. So we can say $f(x|Y=j),j=0,1$ is a gamma density with $\alpha_j$ and $\beta_j$, $j=0,1$. Also for the sake of efficiency I will use $\xi_j=\frac{1}{\Gamma(\alpha_j)\beta_j^{\alpha_j}}$ to reduce the clutter of the equations. We then have:
+
+$$
+\log \left( \frac{\theta(x)}{1-\theta(x)} \right)=\log \left( \frac{P(Y=1)}{P(Y=0)}\right)+\log \left( \frac{\xi_1 x^{\alpha_1-1}e^{-x/\beta_1}}{\xi_0 x^{\alpha_0-1}e^{-x/\beta_0}}\right)
+$$
+
+After simplifying we have:
+
+$$
+\log \left( \frac{\theta(x)}{1-\theta(x)} \right)=\log \left( \frac{P(Y=1)}{P(Y=0)}\right)+\log \left(\frac{\xi_1}{\xi_0} \right)+(\alpha_1-1) \log(x)-(\alpha_0-1) \log(x)+(-x/\beta_1)-(-x/\beta_0)
+$$
+
+$$
+\log \left( \frac{\theta(x)}{1-\theta(x)} \right)=\log \left( \frac{P(Y=1)}{P(Y=0)}\right)+\log \left( \frac{\xi_1}{\xi_0}\right)+(\alpha_1-\alpha_0) \log(x) + \left( \frac{1}{\beta_0}-\frac{1}{\beta_1} \right)x
+$$
+
+We can clearly see that the log odds are a function of x and $\log(x)$ for the gamma distribution.
