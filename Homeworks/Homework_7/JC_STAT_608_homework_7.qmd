@@ -145,3 +145,25 @@ $$
 $$
 
 We can clearly see that the log odds are a function of x and $\log(x)$ for the gamma distribution.
+
+4\)
+
+a\)
+
+Model 8.6 is not a valid model for the data. We can see in the marginal model plots for $X_1$ and $X_4$ that there is significant deviation between the loess estimate of $E(Y|X_1),E(Y|X_4)$ and $E(\hat{Y}|X_1),E(\hat{Y}|X_4)$.
+
+The two predictors $X_1$, blood pressure, and $X_4$, obesity, are intuitively important variables to predict heart disease yet are not statistically significant according to Model 8.6. These predictors should be reviewed.
+
+After looking at the density estimates of $X_1$ and $X_4$ we can see that both have right skewed distributions. This would indicate that log odds could depend on both $X_1$ and $\log{X_1}$, and similarly for $X_4$. Model 8.6 has not included the log transformations of $X_1$ and $X_4$.
+
+b\)
+
+In line with out discussion at the end of part a we should add $\log(X_1)$ and $\log(X_4)$ due to the skewed densities of both $X_1$ and $X_4$.
+
+c\)
+
+Model 8.7 is a valid model for the data. The marginal model plots show close tracking between the loess estimates of $E(Y|X_i)$ and $E(\hat{Y}|X_i)$ for each predictor, particularly a large improvement in $X_1$ and $X_4$ which now have p-values significantly lower than before. To fully review the model we would need to see plots that show us leverage points, but in absence of that we can assume model 8.7 is a valid model.
+
+d\)
+
+The predictor variable $X_3$ is a dummy variable equaling one for patients with a family history. The coefficient from model 8.7 is 0.941056. We interpret as follows: with all other variables remaining unchanged, a patient having a family history of heart disease increases the log-odds of heart disease by 0.941056 on average.
