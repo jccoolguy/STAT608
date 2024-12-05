@@ -1,0 +1,114 @@
+---
+title: "Multiple Linear Regression Review"
+author: "Jack Cunningham"
+format: pdf
+editor: visual
+---
+
+```{r}
+data <- read.csv("HoustonChronicle.csv")
+head(data)
+attach(data)
+```
+
+To answer these three questions we use the model:
+
+$$
+Y=\beta_0+\beta_1 x_1 + \beta_2 x_2 + \beta_3 x_1 x_2
+$$
+
+Where Y is the percentage of students repeating first grade, $x_1$ is the percentage of low income students, and $x_2$ is a dummy variable that is equal to 1 when Year is 2004 and 0 when year is 1994.
+
+```{r}
+data$year_dummy <- ifelse(Year == 2004, 1,0)
+```
+
+```{r}
+fit <- lm(X.Repeating.1st.Grade ~ X.Low.income.students + year_dummy + 
+            X.Low.income.students*year_dummy, data = data)
+summary(fit)
+```
+
+a\)
+
+The association between the percentage of low income students and the percentage of students repeating first grade is low and not statistically significant. If we test the hypothesis:
+
+$$
+H_0:\beta_1 =0,H_a:\beta_1 \neq0
+$$
+
+The null hypothesis cannot be rejected with a p-value barely over a significance of $\alpha=0.05167$.
+
+The effect size is low as well, $\hat{\beta_1}=0.0608$ means an increase in one percentage of low income students only increases the percentage of students repeating first grade by $0.06\%$.
+
+b\)
+
+To review, when the year is 1994 we have:
+
+$$
+Y=\beta_0+\beta_1 x_1
+$$
+
+When the year is 2004 we have:
+
+$$
+Y=(\beta_0+\beta_2)+(\beta_1+\beta_3)x_1
+$$
+
+In order to test if there has been an increase in the percentage of students repeating first grade between 1994-1995 and 2004-2005 let us first test whether there is a difference between the two years. We do this by testing:
+
+$$
+H_0:\beta_2=\beta_3=0,H_a:\beta_2 \neq0 \text{ or }
+\beta_3 \neq 0$$
+
+We have test statistic:
+
+$$
+F=\frac{(RSS_{reduced}-RSS_{full})/(df_{reduced}-df_{full})}{RSS_{full/}/df_{full}}
+$$
+
+Where $df_{full} = 61 - 3 -1$ and $df_{reduced}=61 - 1 - 1$.
+
+```{r}
+fit_reduced <- lm(X.Repeating.1st.Grade ~ X.Low.income.students, data = data)
+summary(fit_reduced)
+```
+
+```{r}
+df_full = 61 - 3 - 1
+df_reduced = 61 - 1 -1
+RSS_full = sum(fit$residuals^2)
+RSS_reduced = sum(fit_reduced$residuals^2)
+
+F = (RSS_reduced - RSS_full)/(df_reduced - df_full) /
+  (RSS_full/df_full)
+p_value = 1 - pf(F, df_reduced - df_full, df_full)
+cat("F Statistic: ",F, " p value: ", p_value)
+```
+
+With a p value of 0.8847324 we can cannot reject the null hypothesis that the reduced model, which disregards year, is as appropriate as the full model.
+
+c\)
+
+To see if there is an interaction effect between year and the percentage of low-income students on the percentage of students repeating first grade we test:
+
+$$
+H_0:\beta_3=0,H_1:\beta_3 \neq0
+$$
+
+We have test statistic:
+
+$$
+T=\frac{\hat{\beta_3}}{SE(\hat{\beta_3})}
+$$
+
+```{r}
+beta_3_hat <- as.numeric(fit$coefficients[4])
+se_beta_3 <- summary(fit)$coefficients[4,2]
+df = 61 - 3 - 1
+T = beta_3_hat/se_beta_3
+p_value <- 2*(1 - pt(T,df))
+cat("T statistic: ", T, "p value:", p_value)
+```
+
+We cannot reject the null hypothesis that there is no interaction effect between year and the percentage of low-income students on the percentage of students repeating first grade.
